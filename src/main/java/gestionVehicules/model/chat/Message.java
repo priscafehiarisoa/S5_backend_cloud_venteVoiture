@@ -1,6 +1,5 @@
 package gestionVehicules.model.chat;
 
-import gestionVehicules.model.utilisateur.UtilisateurSimple;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,7 +15,10 @@ public class Message {
     private String id;
 
     private LocalDateTime dateEnvoiMessage;
-    private UtilisateurSimple expediteur;
-    private UtilisateurSimple recepteur;
+    private String  idExpediteur;
+    private String  idRecepteur;
+
+    // fonction get Expediteur
+    // fonction get recepteur
 
 }
