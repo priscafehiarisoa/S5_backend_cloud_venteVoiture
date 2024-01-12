@@ -39,9 +39,6 @@ public class Vehicule {
     @JoinColumn(name = "id_couleur")
     private Couleur couleur;
 
-    @ManyToOne
-    @JoinColumn(name = "id_marque")
-    private Marque marque;
 
     @ManyToOne
     @JoinColumn(name = "id_modele")
@@ -159,13 +156,6 @@ public class Vehicule {
         this.couleur = couleur;
     }
 
-    public Marque getMarque() {
-        return marque;
-    }
-
-    public void setMarque(Marque marque) {
-        this.marque = marque;
-    }
 
     public Modele getModele() {
         return modele;
@@ -183,7 +173,7 @@ public class Vehicule {
         this.moteur = moteur;
     }
 
-    public Vehicule(String id_vehicule, String immatricule, int annee_fabrication, double kilometrage_vehicule, int nombre_sieges, double masse_vehicule, Boite boite, Carburant carburant, Categorie categorie, Couleur couleur, Marque marque, Modele modele, Moteur moteur, Pays pays) throws Exception {
+    public Vehicule(String id_vehicule, String immatricule, int annee_fabrication, double kilometrage_vehicule, int nombre_sieges, double masse_vehicule, Boite boite, Carburant carburant, Categorie categorie, Couleur couleur,Modele modele, Moteur moteur, Pays pays) throws Exception {
         this.setId_vehicule(id_vehicule);
         this.setImmatricule(immatricule);
         this.setAnnee_fabrication(annee_fabrication);
@@ -194,13 +184,12 @@ public class Vehicule {
         this.setCarburant(carburant);
         this.setCategorie(categorie);
         this.setCouleur(couleur);
-        this.setMarque(marque);
         this.setModele(modele);
         this.setMoteur(moteur);
         this.setPays(pays);
     }
 
-    public Vehicule(String immatricule, int annee_fabrication, double kilometrage_vehicule, int nombre_sieges, double masse_vehicule, Boite boite, Carburant carburant, Categorie categorie, Couleur couleur, Marque marque, Modele modele, Moteur moteur, Pays pays) throws Exception {
+    public Vehicule(String immatricule, int annee_fabrication, double kilometrage_vehicule, int nombre_sieges, double masse_vehicule, Boite boite, Carburant carburant, Categorie categorie, Couleur couleur, Modele modele, Moteur moteur, Pays pays) throws Exception {
         this.setImmatricule(immatricule);
         this.setAnnee_fabrication(annee_fabrication);
         this.setKilometrage_vehicule(kilometrage_vehicule);
@@ -210,7 +199,6 @@ public class Vehicule {
         this.setCarburant(carburant);
         this.setCategorie(categorie);
         this.setCouleur(couleur);
-        this.setMarque(marque);
         this.setModele(modele);
         this.setMoteur(moteur);
         this.setPays(pays);

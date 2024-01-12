@@ -1,8 +1,6 @@
 package gestionVehicules.model.vehicule;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Modele {
@@ -11,6 +9,17 @@ public class Modele {
     private String id_modele;
 
     private String nom_modele;
+    @ManyToOne
+    @JoinColumn(name = "id_marque")
+    private Marque marque;
+
+    public Marque getMarque() {
+        return marque;
+    }
+
+    public void setMarque(Marque marque) {
+        this.marque = marque;
+    }
 
     public Modele() {
 
@@ -32,12 +41,15 @@ public class Modele {
         this.id_modele = id_modele;
     }
 
-    public Modele(String id_modele, String nom_modele) {
+    public Modele(String id_modele, String nom_modele,Marque marque) {
         this.setId_modele(id_modele);
         this.setNom_modele(nom_modele);
+        this.setMarque(marque);
     }
 
-    public Modele(String nom_modele) {
+    public Modele(String nom_modele,Marque marque) {
         this.setNom_modele(nom_modele);
+        this.setMarque(marque);
+
     }
 }

@@ -11,6 +11,16 @@ public class Moteur {
     private String id_moteur;
     private String nom_moteur;
 
+    private double puissance;
+
+    public double getPuissance() {
+        return puissance;
+    }
+
+    public void setPuissance(double puissance) {
+        this.puissance = puissance;
+    }
+
     public Moteur() {
 
     }
@@ -31,12 +41,15 @@ public class Moteur {
         this.id_moteur = id_moteur;
     }
 
-    public Moteur(String id_moteur, String nom_moteur) {
+    public Moteur(String id_moteur, String nom_moteur,double puissance) {
         this.setId_moteur(id_moteur);
         this.setNom_moteur(nom_moteur);
+        this.setPuissance(puissance);
     }
 
-    public Moteur(String nom_moteur) {
+    public Moteur(String nom_moteur,double puissance) {
         this.setNom_moteur(nom_moteur);
+        this.setPuissance(puissance);
+
     }
 }
