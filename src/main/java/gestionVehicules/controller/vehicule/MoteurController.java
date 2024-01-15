@@ -6,6 +6,8 @@ import gestionVehicules.repository.MoteurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.MalformedParameterizedTypeException;
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin()
@@ -16,15 +18,24 @@ public class MoteurController {
     MoteurRepository moteurRepository;
 
     @PostMapping
-    public void insertMoteur(@RequestBody Moteur moteur){
+    public Object insertMoteur(@RequestBody Moteur moteur){
         int id=moteurRepository.getNextval();
         moteur.setId_moteur(moteurRepository.getSequence(3,"MTR",id));
         moteurRepository.save(moteur);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 
     @GetMapping
-    public List<Moteur> getAllMoteurs(){
-        return moteurRepository.findAll();
+    public Object getAllMoteurs(){
+        List<Moteur>moteurs= moteurRepository.findAll();
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        returnType.put("donnee",moteurs);
+        return  returnType;
     }
 
     @PutMapping("/{id}")
@@ -45,7 +56,11 @@ public class MoteurController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMoteur(@PathVariable String id) throws IllegalAccessException {
+    public Object deleteMoteur(@PathVariable String id) throws IllegalAccessException {
         moteurRepository.deleteById(id);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 }

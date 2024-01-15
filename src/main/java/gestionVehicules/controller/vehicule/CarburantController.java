@@ -1,12 +1,16 @@
 package gestionVehicules.controller.vehicule;
 
+import gestionVehicules.model.annonce.Annonce;
 import gestionVehicules.model.vehicule.Carburant;
 import gestionVehicules.model.vehicule.Categorie;
 import gestionVehicules.repository.CarburantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+
+import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
 
 @CrossOrigin()
 @RestController
@@ -16,15 +20,25 @@ public class CarburantController {
     CarburantRepository carburantRepository;
 
     @PostMapping
-    public void insertCarburant(@RequestBody Carburant carburant){
+    public Object insertCarburant(@RequestBody Carburant carburant){
         int id=carburantRepository.getNextval();
         carburant.setId_carburant(carburantRepository.getSequence(3,"CBR",id));
         carburantRepository.save(carburant);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 
     @GetMapping
-    public List<Carburant> getAllCarburants(){
-        return carburantRepository.findAll();
+    public Object getAllCarburants(){
+        List<Carburant> carburantList= carburantRepository.findAll();
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        returnType.put("donnee",carburantList);
+
+        return  returnType;
     }
 
     @PutMapping("/{id}")
@@ -44,7 +58,11 @@ public class CarburantController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCarburant(@PathVariable String id) throws IllegalAccessException {
+    public Object deleteCarburant(@PathVariable String id) throws IllegalAccessException {
         carburantRepository.deleteById(id);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 }

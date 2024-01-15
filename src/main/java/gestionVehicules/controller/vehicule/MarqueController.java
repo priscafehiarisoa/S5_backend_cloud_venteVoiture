@@ -7,6 +7,7 @@ import gestionVehicules.repository.MarqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin()
@@ -17,15 +18,24 @@ public class MarqueController {
     MarqueRepository marqueRepository;
 
     @PostMapping
-    public void insertMarque(@RequestBody Marque marque){
+    public Object insertMarque(@RequestBody Marque marque){
         int id=marqueRepository.getNextval();
         marque.setId_marque(marqueRepository.getSequence(3,"MRQ",id));
         marqueRepository.save(marque);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 
     @GetMapping
-    public List<Marque> getAllMarques(){
-        return marqueRepository.findAll();
+    public Object getAllMarques(){
+        List<Marque>marques= marqueRepository.findAll();
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        returnType.put("donnee",marques);
+        return  returnType;
     }
 
     @PutMapping("/{id}")
@@ -45,7 +55,11 @@ public class MarqueController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMarque(@PathVariable String id) throws IllegalAccessException {
+    public Object deleteMarque(@PathVariable String id) throws IllegalAccessException {
         marqueRepository.deleteById(id);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 }

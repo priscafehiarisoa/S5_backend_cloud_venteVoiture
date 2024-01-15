@@ -6,6 +6,7 @@ import gestionVehicules.repository.ModeleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin()
@@ -16,14 +17,23 @@ public class ModeleController {
     ModeleRepository modeleRepository;
 
     @PostMapping
-    public void insertModele(@RequestBody Modele modele){
+    public Object insertModele(@RequestBody Modele modele){
         int id=modeleRepository.getNextval();
         modele.setId_modele(modeleRepository.getSequence(3,"MDL",id));
         modeleRepository.save(modele);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
     @GetMapping
-    public List<Modele> getAllModele(){
-        return modeleRepository.findAll();
+    public Object getAllModele(){
+        List<Modele>modeles= modeleRepository.findAll();
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        returnType.put("donnee",modeles);
+        return  returnType;
     }
 
     @PutMapping("/{id}")
@@ -44,7 +54,12 @@ public class ModeleController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteModele(@PathVariable String id) throws IllegalAccessException {
+    public Object deleteModele(@PathVariable String id) throws IllegalAccessException {
+        System.out.println("Deleting modele with id: " + id);
         modeleRepository.deleteById(id);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 }

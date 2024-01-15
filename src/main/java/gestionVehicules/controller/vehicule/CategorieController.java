@@ -6,6 +6,7 @@ import gestionVehicules.repository.CategorieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin()
@@ -16,15 +17,25 @@ public class CategorieController {
     CategorieRepository categorieRepository;
 
     @PostMapping
-    public void insertCategorie(@RequestBody Categorie categorie){
+    public Object insertCategorie(@RequestBody Categorie categorie){
         int id=categorieRepository.getNextval();
         categorie.setId_categorie(categorieRepository.getSequence(3,"CAT",id));
         categorieRepository.save(categorie);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 
     @GetMapping
-    public List<Categorie> getAllCategories(){
-    return categorieRepository.findAll();
+    public Object getAllCategories(){
+
+    List<Categorie>categories= categorieRepository.findAll();
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("donnee",categories);
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 
     @PutMapping("/{id}")
@@ -44,7 +55,11 @@ public class CategorieController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCategorie(@PathVariable String id) throws IllegalAccessException {
+    public Object deleteCategorie(@PathVariable String id) throws IllegalAccessException {
         categorieRepository.deleteById(id);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 }

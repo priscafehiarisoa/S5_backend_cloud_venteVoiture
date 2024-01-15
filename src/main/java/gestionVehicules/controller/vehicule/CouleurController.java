@@ -7,6 +7,7 @@ import gestionVehicules.repository.CouleurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin()
@@ -17,15 +18,24 @@ public class CouleurController {
     CouleurRepository couleurRepository;
 
     @PostMapping
-    public void insertCouleur(@RequestBody Couleur couleur){
+    public Object insertCouleur(@RequestBody Couleur couleur){
         int id=couleurRepository.getNextval();
         couleur.setId_couleur(couleurRepository.getSequence(3,"CLR",id));
         couleurRepository.save(couleur);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 
     @GetMapping
-    public List<Couleur> getAllCouleurs(){
-        return couleurRepository.findAll();
+    public Object getAllCouleurs(){
+        List<Couleur>couleurs= couleurRepository.findAll();
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        returnType.put("donnee",couleurs);
+        return  returnType;
     }
 
     @PutMapping("/{id}")
@@ -45,7 +55,11 @@ public class CouleurController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCouleur(@PathVariable String id) throws IllegalAccessException {
+    public Object deleteCouleur(@PathVariable String id) throws IllegalAccessException {
         couleurRepository.deleteById(id);
+        HashMap<String,Object> returnType=new HashMap<>();
+        returnType.put("statuts",200);
+        returnType.put("errreur",null);
+        return  returnType;
     }
 }
