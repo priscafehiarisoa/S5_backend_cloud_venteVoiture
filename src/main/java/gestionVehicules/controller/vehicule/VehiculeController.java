@@ -3,6 +3,7 @@ package gestionVehicules.controller.vehicule;
 import gestionVehicules.model.vehicule.Modele;
 import gestionVehicules.model.vehicule.Vehicule;
 import gestionVehicules.repository.VehiculeRepository;
+import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +16,17 @@ import java.util.List;
 public class VehiculeController {
     @Autowired
     VehiculeRepository vehiculeRepository;
+    @Autowired
+    private SequenceRepository sequenceRepository;
 
     @PostMapping
     public Object insertVehicule(@RequestBody Vehicule vehicule){
         int id=vehiculeRepository.getNextval();
-        vehicule.setId_vehicule(vehiculeRepository.getSequence(3,"VHL",id));
+        vehicule.setId_vehicule(sequenceRepository.getSequence(3,"VHL",Vehicule.getSequenceName()));
         vehiculeRepository.save(vehicule);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 
@@ -31,8 +34,8 @@ public class VehiculeController {
     public Object getAllVehicule(){
         List<Vehicule> vehicules= vehiculeRepository.findAll();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",vehicules);
         return  returnType;
     }
@@ -74,8 +77,8 @@ public class VehiculeController {
     public Object deleteVehicule(@PathVariable String id) throws IllegalAccessException {
         vehiculeRepository.deleteById(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 

@@ -1,13 +1,14 @@
 package gestionVehicules.model.vehicule;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@SequenceGenerator(name = "couleur_seq_g", sequenceName = "couleur_seq", allocationSize = 1)
+
 public class Couleur {
     @Id
     @Column(name = "id_couleur", nullable = false)
+
     private String id_couleur;
 
     private String nom_couleur;
@@ -41,4 +42,7 @@ public class Couleur {
         this.setNom_couleur(nom_couleur);
     }
 
+    public static String getSequenceName(){
+        return "couleur_seq";
+    }
 }

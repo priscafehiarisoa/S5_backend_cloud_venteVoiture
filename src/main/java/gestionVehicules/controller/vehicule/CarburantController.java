@@ -4,6 +4,7 @@ import gestionVehicules.model.annonce.Annonce;
 import gestionVehicules.model.vehicule.Carburant;
 import gestionVehicules.model.vehicule.Categorie;
 import gestionVehicules.repository.CarburantRepository;
+import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,15 +19,16 @@ import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
 public class CarburantController {
     @Autowired
     CarburantRepository carburantRepository;
+    @Autowired
+    private SequenceRepository sequenceRepository;
 
     @PostMapping
     public Object insertCarburant(@RequestBody Carburant carburant){
-        int id=carburantRepository.getNextval();
-        carburant.setId_carburant(carburantRepository.getSequence(3,"CBR",id));
+        carburant.setId_carburant(sequenceRepository.getSequence(3,"CBR",Carburant.getSequenceName()));
         carburantRepository.save(carburant);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 
@@ -34,8 +36,8 @@ public class CarburantController {
     public Object getAllCarburants(){
         List<Carburant> carburantList= carburantRepository.findAll();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",carburantList);
 
         return  returnType;
@@ -61,8 +63,8 @@ public class CarburantController {
     public Object deleteCarburant(@PathVariable String id) throws IllegalAccessException {
         carburantRepository.deleteById(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 }

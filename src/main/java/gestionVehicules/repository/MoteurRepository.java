@@ -11,5 +11,5 @@ public interface MoteurRepository extends JpaRepository<Moteur,String> {
     @Query(value = "select nextval('moteur_seq') ",nativeQuery = true)
     int getNextval();
     @Query(value = "select * from getsequence (:length , :prefix , :sequence)", nativeQuery = true)
-    String getSequence(@Param("length") int length, @Param("prefix") String prefix, @Param("sequence") int sequence);
+    String getSequence(@Param("length") int length, @Param("prefix") String prefix, @Param("sequence") String sequence);
 }

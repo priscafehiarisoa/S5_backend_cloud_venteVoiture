@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@SequenceGenerator(name = "vehicule_seq_g", sequenceName = "vehicule_seq", allocationSize = 1)
 public class Vehicule {
     @Id
     @Column(name = "id_vehicule", nullable = false)
@@ -202,5 +203,8 @@ public class Vehicule {
         this.setModele(modele);
         this.setMoteur(moteur);
         this.setPays(pays);
+    }
+    public static String getSequenceName(){
+        return "vehicule_seq";
     }
 }

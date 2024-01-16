@@ -3,6 +3,7 @@ package gestionVehicules.controller.vehicule;
 import gestionVehicules.model.vehicule.Modele;
 import gestionVehicules.model.vehicule.Pays;
 import gestionVehicules.repository.ModeleRepository;
+import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,23 +16,25 @@ import java.util.List;
 public class ModeleController {
     @Autowired
     ModeleRepository modeleRepository;
+    @Autowired
+    private SequenceRepository sequenceRepository;
 
     @PostMapping
     public Object insertModele(@RequestBody Modele modele){
         int id=modeleRepository.getNextval();
-        modele.setId_modele(modeleRepository.getSequence(3,"MDL",id));
+        modele.setId_modele(sequenceRepository.getSequence(3,"MDL",Modele.getSequenceName()));
         modeleRepository.save(modele);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
     @GetMapping
     public Object getAllModele(){
         List<Modele>modeles= modeleRepository.findAll();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",modeles);
         return  returnType;
     }
@@ -58,8 +61,8 @@ public class ModeleController {
         System.out.println("Deleting modele with id: " + id);
         modeleRepository.deleteById(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 }

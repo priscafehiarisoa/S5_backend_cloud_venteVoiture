@@ -1,13 +1,14 @@
 package gestionVehicules.model.vehicule;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@SequenceGenerator(name = "moteur_seq_g", sequenceName = "moteur_seq", allocationSize = 1)
+
 public class Moteur {
     @Id
     @Column(name = "id_moteur", nullable = false)
+
     private String id_moteur;
     private String nom_moteur;
 
@@ -51,5 +52,8 @@ public class Moteur {
         this.setNom_moteur(nom_moteur);
         this.setPuissance(puissance);
 
+    }
+    public static String getSequenceName(){
+        return "moteur_seq";
     }
 }

@@ -4,6 +4,7 @@ import gestionVehicules.model.vehicule.Couleur;
 import gestionVehicules.model.vehicule.Marque;
 import gestionVehicules.repository.CouleurRepository;
 import gestionVehicules.repository.MarqueRepository;
+import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,17 @@ import java.util.List;
 public class MarqueController {
     @Autowired
     MarqueRepository marqueRepository;
+    @Autowired
+    private SequenceRepository sequenceRepository;
 
     @PostMapping
     public Object insertMarque(@RequestBody Marque marque){
         int id=marqueRepository.getNextval();
-        marque.setId_marque(marqueRepository.getSequence(3,"MRQ",id));
+        marque.setId_marque(sequenceRepository.getSequence(3,"MRQ",Marque.getSequenceName()));
         marqueRepository.save(marque);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 
@@ -32,8 +35,8 @@ public class MarqueController {
     public Object getAllMarques(){
         List<Marque>marques= marqueRepository.findAll();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",marques);
         return  returnType;
     }
@@ -58,8 +61,8 @@ public class MarqueController {
     public Object deleteMarque(@PathVariable String id) throws IllegalAccessException {
         marqueRepository.deleteById(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 }

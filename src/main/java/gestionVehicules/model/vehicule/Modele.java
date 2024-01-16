@@ -3,9 +3,12 @@ package gestionVehicules.model.vehicule;
 import jakarta.persistence.*;
 
 @Entity
+@SequenceGenerator(name = "modele_seq_g", sequenceName = "modele_seq", allocationSize = 1)
+
 public class Modele {
     @Id
     @Column(name = "id_modele", nullable = false)
+
     private String id_modele;
 
     private String nom_modele;
@@ -51,5 +54,8 @@ public class Modele {
         this.setNom_modele(nom_modele);
         this.setMarque(marque);
 
+    }
+    public static String getSequenceName(){
+        return "modele_seq";
     }
 }

@@ -3,6 +3,7 @@ package gestionVehicules.controller.vehicule;
 
 import gestionVehicules.model.vehicule.Categorie;
 import gestionVehicules.repository.CategorieRepository;
+import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +16,17 @@ import java.util.List;
 public class CategorieController {
     @Autowired
     CategorieRepository categorieRepository;
+    @Autowired
+    private SequenceRepository sequenceRepository;
 
     @PostMapping
     public Object insertCategorie(@RequestBody Categorie categorie){
         int id=categorieRepository.getNextval();
-        categorie.setId_categorie(categorieRepository.getSequence(3,"CAT",id));
+        categorie.setId_categorie(sequenceRepository.getSequence(3,"CAT",Categorie.getSequenceName()));
         categorieRepository.save(categorie);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 
@@ -33,8 +36,8 @@ public class CategorieController {
     List<Categorie>categories= categorieRepository.findAll();
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("donnee",categories);
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 
@@ -58,8 +61,8 @@ public class CategorieController {
     public Object deleteCategorie(@PathVariable String id) throws IllegalAccessException {
         categorieRepository.deleteById(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 }

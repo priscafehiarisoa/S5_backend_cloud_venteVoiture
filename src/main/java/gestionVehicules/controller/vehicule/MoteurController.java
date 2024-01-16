@@ -3,6 +3,7 @@ package gestionVehicules.controller.vehicule;
 import gestionVehicules.model.vehicule.Marque;
 import gestionVehicules.model.vehicule.Moteur;
 import gestionVehicules.repository.MoteurRepository;
+import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,18 @@ import java.util.List;
 public class MoteurController {
     @Autowired
     MoteurRepository moteurRepository;
+    @Autowired
+    private SequenceRepository sequenceRepository;
 
     @PostMapping
     public Object insertMoteur(@RequestBody Moteur moteur){
-        int id=moteurRepository.getNextval();
-        moteur.setId_moteur(moteurRepository.getSequence(3,"MTR",id));
+        moteur.setId_moteur(sequenceRepository.getSequence(3,"MTR",Moteur.getSequenceName()));
         moteurRepository.save(moteur);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
+        returnType.put("donnee",moteurRepository.findAll());
+
         return  returnType;
     }
 
@@ -32,8 +36,8 @@ public class MoteurController {
     public Object getAllMoteurs(){
         List<Moteur>moteurs= moteurRepository.findAll();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",moteurs);
         return  returnType;
     }
@@ -59,8 +63,8 @@ public class MoteurController {
     public Object deleteMoteur(@PathVariable String id) throws IllegalAccessException {
         moteurRepository.deleteById(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 }

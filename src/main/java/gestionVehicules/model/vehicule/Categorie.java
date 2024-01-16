@@ -1,13 +1,14 @@
 package gestionVehicules.model.vehicule;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@SequenceGenerator(name = "categorie_seq_g", sequenceName = "categorie_seq", allocationSize = 1)
+
 public class Categorie {
     @Id
     @Column(name = "id_categorie", nullable = false)
+
     private String id_categorie;
     private String nom_categorie;
 
@@ -38,6 +39,9 @@ public class Categorie {
 
     public Categorie(String nom_categorie) {
         this.setNom_categorie(nom_categorie);
+    }
+    public static String getSequenceName(){
+        return "categorie_seq";
     }
 
 }
