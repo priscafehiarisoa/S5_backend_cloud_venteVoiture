@@ -19,12 +19,21 @@ public class MoteurController {
 
     @PostMapping
     public Object insertMoteur(@RequestBody Moteur moteur){
+        HashMap<String,Object> returnType=new HashMap<>();
+        try{
         int id=moteurRepository.getNextval();
         moteur.setId_moteur(moteurRepository.getSequence(3,"MTR",id));
         moteurRepository.save(moteur);
-        HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
+        returnType.put("statut",200);
         returnType.put("errreur",null);
+        returnType.put("donnee",moteurRepository.findAll());
+        }
+        catch (Exception e){
+            returnType.put("statut",200);
+            returnType.put("errreur",e.getMessage());
+            returnType.put("donnee",null);
+        }
+
         return  returnType;
     }
 
