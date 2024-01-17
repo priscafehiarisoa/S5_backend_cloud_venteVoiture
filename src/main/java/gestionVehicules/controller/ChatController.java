@@ -40,7 +40,7 @@ public class ChatController {
     // structure json
     /*
     * {
-    *   statuts:200,
+    *   statut:200,
     *   donnee:{}
     *   erreur:{}
     * }*/
@@ -50,8 +50,8 @@ public class ChatController {
         List<UtilisateurTest> listUtilisateur=Message.getListUserThatHaveSentAMessage(id,utilisateurTestRepository,messageRepository);
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("donnee",listUtilisateur);
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return returnType;
     }
 
@@ -64,8 +64,8 @@ public class ChatController {
         List<Message> listeConversation= Message.getConversation(String.valueOf(response.get("idExpediteur")).trim(),String.valueOf(response.get("idRecepteur")).trim(),messageRepository);
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("donnee",listeConversation);
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return returnType;
     }
 
