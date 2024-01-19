@@ -20,13 +20,26 @@ public class CategorieController {
     private SequenceRepository sequenceRepository;
 
     @PostMapping
-    public Object insertCategorie(@RequestBody Categorie categorie){
-        int id=categorieRepository.getNextval();
-        categorie.setId_categorie(sequenceRepository.getSequence(3,"CAT",Categorie.getSequenceName()));
-        categorieRepository.save(categorie);
+    public Object insertCategorie(@RequestBody HashMap<String,Object> cat) throws Exception {
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statut",200);
-        returnType.put("erreur",null);
+
+        try {
+
+            String nom_categorie= (String) cat.get("nom_categorie");
+            System.out.println(nom_categorie);
+            Categorie categorie=new Categorie();
+            categorie.setId_categorie(sequenceRepository.getSequence(3,"CAT",Categorie.getSequenceName()));
+            categorie.setNom_categorie(nom_categorie);
+            categorieRepository.save(categorie);
+            returnType.put("statut",200);
+
+        }
+        catch (Exception e)
+        {
+            returnType.put("erreur",e);
+            returnType.put("statut",404);
+
+        }
         return  returnType;
     }
 
@@ -45,7 +58,11 @@ public class CategorieController {
     public Categorie updateCategorie(@RequestBody Categorie categorie, @PathVariable String id) {
         return categorieRepository.findById(String.valueOf(id)).map(
                 categorie1 -> {
-                    categorie1.setNom_categorie(categorie.getNom_categorie());
+                    try {
+                        categorie1.setNom_categorie(categorie.getNom_categorie());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
                     return categorieRepository.save(categorie1);
                 }

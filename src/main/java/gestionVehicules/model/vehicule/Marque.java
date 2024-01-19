@@ -20,8 +20,14 @@ public class Marque {
         return nom_marque;
     }
 
-    public void setNom_marque(String nom_marque) {
-        this.nom_marque = nom_marque;
+    public void setNom_marque(String nom_marque) throws Exception {
+        if(!nom_marque.isEmpty()){
+            this.nom_marque = nom_marque;
+
+        }
+          else {
+            throw new Exception("le champ ne peut pas etre nul");
+        }
     }
 
     public String getId_marque() {
@@ -32,12 +38,12 @@ public class Marque {
         this.id_marque = id_marque;
     }
 
-    public Marque(String id_marque, String nom_marque) {
+    public Marque(String id_marque, String nom_marque) throws Exception {
         this.setId_marque(id_marque);
         this.setNom_marque(nom_marque);
     }
 
-    public Marque(String nom_marque) {
+    public Marque(String nom_marque) throws Exception {
         this.setNom_marque(nom_marque);
     }
     public static String getSequenceName(){

@@ -19,8 +19,13 @@ public class Pays {
         return nom_pays;
     }
 
-    public void setNom_pays(String nom_pays) {
-        this.nom_pays = nom_pays;
+    public void setNom_pays(String nom_pays) throws Exception {
+        if (!nom_pays.isEmpty()) {
+            this.nom_pays = nom_pays;
+        }
+        else {
+            throw new Exception("le champ ne peut pas etre vide");
+        }
     }
 
     public String getId_pays() {
@@ -31,12 +36,12 @@ public class Pays {
         this.id_pays = id_pays;
     }
 
-    public Pays(String id_pays, String nom_pays) {
+    public Pays(String id_pays, String nom_pays) throws Exception {
         this.setId_pays(id_pays);
         this.setNom_pays(nom_pays);
     }
 
-    public Pays(String nom_pays) {
+    public Pays(String nom_pays) throws Exception {
         this.setNom_pays(nom_pays);
     }
 

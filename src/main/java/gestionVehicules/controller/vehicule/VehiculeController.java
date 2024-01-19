@@ -44,7 +44,11 @@ public class VehiculeController {
         public Vehicule updateVehicule(@RequestBody Vehicule vehicule, @PathVariable String id) throws Exception {
         return vehiculeRepository.findById(String.valueOf(id)).map(
                 entity1 -> {
-                    entity1.setImmatricule(vehicule.getImmatricule());
+                    try {
+                        entity1.setImmatricule(vehicule.getImmatricule());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     try {
                         entity1.setAnnee_fabrication(vehicule.getAnnee_fabrication());
                         entity1.setKilometrage_vehicule(vehicule.getKilometrage_vehicule());

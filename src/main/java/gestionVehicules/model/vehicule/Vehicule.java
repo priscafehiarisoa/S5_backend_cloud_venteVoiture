@@ -69,8 +69,13 @@ public class Vehicule {
         return immatricule;
     }
 
-    public void setImmatricule(String immatricule) {
-        this.immatricule = immatricule;
+    public void setImmatricule(String immatricule) throws Exception {
+        if (!immatricule.isEmpty()) {
+            this.immatricule = immatricule;
+        }
+        else {
+            throw new Exception("le champ ne peut pas etre vide");
+        }
     }
 
     public int getAnnee_fabrication() {

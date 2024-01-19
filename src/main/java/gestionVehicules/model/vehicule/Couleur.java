@@ -21,8 +21,14 @@ public class Couleur {
         return nom_couleur;
     }
 
-    public void setNom_couleur(String nom_couleur) {
-        this.nom_couleur = nom_couleur;
+    public void setNom_couleur(String nom_couleur) throws Exception {
+        if(!nom_couleur.isEmpty()){
+            this.nom_couleur = nom_couleur;
+
+        }
+          else {
+            throw new Exception("le champ ne peut pas etre nul");
+        }
     }
 
     public String getId_couleur() {
@@ -33,12 +39,12 @@ public class Couleur {
         this.id_couleur = id_couleur;
     }
 
-    public Couleur(String id_couleur, String nom_couleur) {
+    public Couleur(String id_couleur, String nom_couleur) throws Exception {
         this.setId_couleur(id_couleur);
         this.setNom_couleur(nom_couleur);
     }
 
-    public Couleur(String nom_couleur) {
+    public Couleur(String nom_couleur) throws Exception {
         this.setNom_couleur(nom_couleur);
     }
 

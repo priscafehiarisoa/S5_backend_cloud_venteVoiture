@@ -20,13 +20,22 @@ public class PaysController {
     private SequenceRepository sequenceRepository;
 
     @PostMapping
-    public Object insertPays(@RequestBody Pays pays){
-        int id=paysRepository.getNextval();
-        pays.setId_pays(sequenceRepository.getSequence(3,"PYS",Pays.getSequenceName()));
-        paysRepository.save(pays);
+    public Object insertPays(@RequestBody HashMap<String,Object> pay) throws Exception {
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statut",200);
-        returnType.put("erreur",null);
+        try {
+            Pays pays = new Pays();
+            String nom_pays = (String) pay.get("nom_pays");
+            pays.setNom_pays(nom_pays);
+            pays.setId_pays(sequenceRepository.getSequence(3, "PYS", Pays.getSequenceName()));
+            paysRepository.save(pays);
+            returnType.put("statut", 200);
+
+        }
+        catch (Exception e) {
+            returnType.put("statut", 404);
+
+            returnType.put("erreur", e);
+        }
         return  returnType;
     }
 
@@ -44,7 +53,11 @@ public class PaysController {
     public Pays updatePays(@RequestBody Pays pays, @PathVariable String id) {
         return paysRepository.findById(String.valueOf(id)).map(
                 entity1 -> {
-                    entity1.setNom_pays(pays.getNom_pays());
+                    try {
+                        entity1.setNom_pays(pays.getNom_pays());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
                     return paysRepository.save(entity1);
                 }

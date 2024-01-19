@@ -21,13 +21,23 @@ public class CouleurController {
     private SequenceRepository sequenceRepository;
 
     @PostMapping
-    public Object insertCouleur(@RequestBody Couleur couleur){
-        int id=couleurRepository.getNextval();
-        couleur.setId_couleur(sequenceRepository.getSequence(3,"CLR",Couleur.getSequenceName()));
-        couleurRepository.save(couleur);
+    public Object insertCouleur(@RequestBody HashMap<String,Object> coul) throws Exception {
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statut",200);
-        returnType.put("erreur",null);
+
+        try {
+            Couleur couleur = new Couleur();
+            String nom_couleur = (String) coul.get("nom_couleur");
+            couleur.setNom_couleur(nom_couleur);
+            couleur.setId_couleur(sequenceRepository.getSequence(3, "CLR", Couleur.getSequenceName()));
+            couleurRepository.save(couleur);
+            returnType.put("statut",200);
+
+        }
+        catch (Exception e) {
+            returnType.put("erreur", e);
+            returnType.put("statut",404);
+
+        }
         return  returnType;
     }
 
@@ -45,7 +55,11 @@ public class CouleurController {
     public Couleur updateCouleur(@RequestBody Couleur couleur, @PathVariable String id) {
         return couleurRepository.findById(String.valueOf(id)).map(
                 entity1 -> {
-                    entity1.setNom_couleur(couleur.getNom_couleur());
+                    try {
+                        entity1.setNom_couleur(couleur.getNom_couleur());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
                     return couleurRepository.save(entity1);
                 }

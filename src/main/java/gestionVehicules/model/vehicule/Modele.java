@@ -32,8 +32,13 @@ public class Modele {
         return nom_modele;
     }
 
-    public void setNom_modele(String nom_modele) {
-        this.nom_modele = nom_modele;
+    public void setNom_modele(String nom_modele) throws Exception {
+        if (!nom_modele.isEmpty()) {
+            this.nom_modele = nom_modele;
+        }
+        else {
+            throw new Exception("le champ ne peut pas etre vide");
+        }
     }
 
     public String getId_modele() {
@@ -44,13 +49,13 @@ public class Modele {
         this.id_modele = id_modele;
     }
 
-    public Modele(String id_modele, String nom_modele,Marque marque) {
+    public Modele(String id_modele, String nom_modele,Marque marque) throws Exception {
         this.setId_modele(id_modele);
         this.setNom_modele(nom_modele);
         this.setMarque(marque);
     }
 
-    public Modele(String nom_modele,Marque marque) {
+    public Modele(String nom_modele,Marque marque) throws Exception {
         this.setNom_modele(nom_modele);
         this.setMarque(marque);
 
