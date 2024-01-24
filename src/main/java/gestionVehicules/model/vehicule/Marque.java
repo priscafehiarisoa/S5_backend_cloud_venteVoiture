@@ -11,6 +11,18 @@ public class Marque {
 
     private String id_marque;
     private String nom_marque;
+    private int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    public void setEtat() {
+        this.etat = 1;
+    }
 
     public Marque() {
 
@@ -41,10 +53,12 @@ public class Marque {
     public Marque(String id_marque, String nom_marque) throws Exception {
         this.setId_marque(id_marque);
         this.setNom_marque(nom_marque);
+        this.setEtat();
     }
 
     public Marque(String nom_marque) throws Exception {
         this.setNom_marque(nom_marque);
+        this.setEtat();
     }
     public static String getSequenceName(){
         return "marque_seq";

@@ -13,6 +13,18 @@ public class Moteur {
     private String nom_moteur;
 
     private double puissance;
+    private int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    public void setEtat() {
+        this.etat = 1;
+    }
 
     public double getPuissance() {
         return puissance;
@@ -24,7 +36,7 @@ public class Moteur {
 
         }
         else {
-            throw new Exception("la puissance e peut pas etre negative");
+            throw new Exception("la puissance ne peut pas etre negative");
         }
     }
 
@@ -57,11 +69,13 @@ public class Moteur {
         this.setId_moteur(id_moteur);
         this.setNom_moteur(nom_moteur);
         this.setPuissance(puissance);
+        this.setEtat();
     }
 
     public Moteur(String nom_moteur,double puissance) throws Exception {
         this.setNom_moteur(nom_moteur);
         this.setPuissance(puissance);
+        this.setEtat();
 
     }
     public static String getSequenceName(){

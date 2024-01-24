@@ -5,6 +5,7 @@ import gestionVehicules.model.vehicule.Moteur;
 import gestionVehicules.repository.MoteurRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.MalformedParameterizedTypeException;
@@ -26,10 +27,12 @@ public class MoteurController {
         try {
             Moteur moteur = new Moteur();
             String nom_moteur = (String) mot.get("nom_moteur");
-            double puissance = (double) mot.get("puissance");
+            System.out.println(nom_moteur+"---------------------------");
+            double puissance = Double.parseDouble(String.valueOf(mot.get("puissance")));
             moteur.setPuissance(puissance);
             moteur.setNom_moteur(nom_moteur);
             moteur.setId_moteur(sequenceRepository.getSequence(3, "MTR", Moteur.getSequenceName()));
+            System.out.println(moteur.getId_moteur()+moteur.getNom_moteur()+moteur.getPuissance());
             moteurRepository.save(moteur);
             returnType.put("statut",200);
 
@@ -44,7 +47,7 @@ public class MoteurController {
 
     @GetMapping
     public Object getAllMoteurs(){
-        List<Moteur>moteurs= moteurRepository.findAll();
+        List<Moteur>moteurs= moteurRepository.moteurDispo();
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
@@ -84,5 +87,15 @@ public class MoteurController {
         returnType.put("statut",200);
         returnType.put("erreur",null);
         return  returnType;
+    }
+    @PutMapping("/updateEtat/{id}")
+    public ResponseEntity<?> updateMoteurEtat(@PathVariable String id) {
+        try {
+            // Appel du service pour mettre à jour l'état de la catégorie avec l'ID spécifié.
+            moteurRepository.updateMoteurEtat(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la mise à jour de l'état du moteur.");
+        }
     }
 }

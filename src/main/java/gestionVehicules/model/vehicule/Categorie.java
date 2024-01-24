@@ -12,6 +12,19 @@ public class Categorie {
     private String id_categorie;
     private String nom_categorie;
 
+    private int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    public void setEtat() {
+        this.etat = 1;
+    }
+
     public Categorie() {
 
     }
@@ -41,10 +54,12 @@ public class Categorie {
     public Categorie(String id_categorie, String nom_categorie) throws Exception {
         this.setId_categorie(id_categorie);
         this.setNom_categorie(nom_categorie);
+        this.setEtat();
     }
 
     public Categorie(String nom_categorie) throws Exception {
         this.setNom_categorie(nom_categorie);
+        this.setEtat();
     }
     public static String getSequenceName(){
         return "categorie_seq";

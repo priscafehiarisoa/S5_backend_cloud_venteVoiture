@@ -12,6 +12,18 @@ public class Couleur {
     private String id_couleur;
 
     private String nom_couleur;
+    private int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    public void setEtat() {
+        this.etat = 1;
+    }
 
     public Couleur() {
 
@@ -42,10 +54,12 @@ public class Couleur {
     public Couleur(String id_couleur, String nom_couleur) throws Exception {
         this.setId_couleur(id_couleur);
         this.setNom_couleur(nom_couleur);
+        this.setEtat();
     }
 
     public Couleur(String nom_couleur) throws Exception {
         this.setNom_couleur(nom_couleur);
+        this.setEtat();
     }
 
     public static String getSequenceName(){

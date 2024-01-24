@@ -6,6 +6,7 @@ import gestionVehicules.repository.CouleurRepository;
 import gestionVehicules.repository.MarqueRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class MarqueController {
 
     @GetMapping
     public Object getAllMarques(){
-        List<Marque>marques= marqueRepository.findAll();
+        List<Marque>marques= marqueRepository.marqueDispo();
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
@@ -77,5 +78,16 @@ public class MarqueController {
         returnType.put("statut",200);
         returnType.put("erreur",null);
         return  returnType;
+    }
+
+    @PutMapping("/updateEtat/{id}")
+    public ResponseEntity<?> updateMarqueEtat(@PathVariable String id) {
+        try {
+            // Appel du service pour mettre à jour l'état de la catégorie avec l'ID spécifié.
+            marqueRepository.updateMarqueEtat(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la mise à jour de l'état de la marque.");
+        }
     }
 }

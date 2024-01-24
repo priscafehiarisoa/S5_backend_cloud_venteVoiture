@@ -6,6 +6,7 @@ import gestionVehicules.repository.CarburantRepository;
 import gestionVehicules.repository.CouleurRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -43,7 +44,7 @@ public class CouleurController {
 
     @GetMapping
     public Object getAllCouleurs(){
-        List<Couleur>couleurs= couleurRepository.findAll();
+        List<Couleur>couleurs= couleurRepository.couleurDispo();
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
@@ -78,5 +79,16 @@ public class CouleurController {
         returnType.put("statut",200);
         returnType.put("erreur",null);
         return  returnType;
+    }
+
+    @PutMapping("/updateEtat/{id}")
+    public ResponseEntity<?> updateCouleurEtat(@PathVariable String id) {
+        try {
+            // Appel du service pour mettre à jour l'état de la catégorie avec l'ID spécifié.
+            couleurRepository.updateCouleurEtat(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la mise à jour de l'état de la couleur.");
+        }
     }
 }
