@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@SequenceGenerator(name = "vehicule_seq_g", sequenceName = "vehicule_seq", allocationSize = 1)
 public class Vehicule {
     @Id
     @Column(name = "id_vehicule", nullable = false)
@@ -68,8 +69,13 @@ public class Vehicule {
         return immatricule;
     }
 
-    public void setImmatricule(String immatricule) {
-        this.immatricule = immatricule;
+    public void setImmatricule(String immatricule) throws Exception {
+        if (!immatricule.isEmpty()) {
+            this.immatricule = immatricule;
+        }
+        else {
+            throw new Exception("le champ ne peut pas etre vide");
+        }
     }
 
     public int getAnnee_fabrication() {
@@ -202,5 +208,8 @@ public class Vehicule {
         this.setModele(modele);
         this.setMoteur(moteur);
         this.setPays(pays);
+    }
+    public static String getSequenceName(){
+        return "vehicule_seq";
     }
 }

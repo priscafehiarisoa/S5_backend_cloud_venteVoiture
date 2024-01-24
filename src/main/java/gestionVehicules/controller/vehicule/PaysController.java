@@ -3,6 +3,7 @@ package gestionVehicules.controller.vehicule;
 import gestionVehicules.model.vehicule.Moteur;
 import gestionVehicules.model.vehicule.Pays;
 import gestionVehicules.repository.PaysRepository;
+import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +16,26 @@ import java.util.List;
 public class PaysController {
     @Autowired
     PaysRepository paysRepository;
+    @Autowired
+    private SequenceRepository sequenceRepository;
+
     @PostMapping
-    public Object insertPays(@RequestBody Pays pays){
-        int id=paysRepository.getNextval();
-        pays.setId_pays(paysRepository.getSequence(3,"PYS",id));
-        paysRepository.save(pays);
+    public Object insertPays(@RequestBody HashMap<String,Object> pay) throws Exception {
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        try {
+            Pays pays = new Pays();
+            String nom_pays = (String) pay.get("nom_pays");
+            pays.setNom_pays(nom_pays);
+            pays.setId_pays(sequenceRepository.getSequence(3, "PYS", Pays.getSequenceName()));
+            paysRepository.save(pays);
+            returnType.put("statut", 200);
+
+        }
+        catch (Exception e) {
+            returnType.put("statut", 404);
+
+            returnType.put("erreur", e);
+        }
         return  returnType;
     }
 
@@ -30,8 +43,8 @@ public class PaysController {
     public Object getAllPays(){
         List<Pays>paysList= paysRepository.findAll();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",paysList);
         return  returnType;
     }
@@ -40,7 +53,11 @@ public class PaysController {
     public Pays updatePays(@RequestBody Pays pays, @PathVariable String id) {
         return paysRepository.findById(String.valueOf(id)).map(
                 entity1 -> {
-                    entity1.setNom_pays(pays.getNom_pays());
+                    try {
+                        entity1.setNom_pays(pays.getNom_pays());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
                     return paysRepository.save(entity1);
                 }
@@ -56,8 +73,8 @@ public class PaysController {
     public Object deletePays(@PathVariable String id) throws IllegalAccessException {
         paysRepository.deleteById(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 }

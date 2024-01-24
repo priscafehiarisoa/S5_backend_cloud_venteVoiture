@@ -1,13 +1,14 @@
 package gestionVehicules.model.vehicule;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@SequenceGenerator(name = "carburant_seq_g", sequenceName = "carburant_seq", allocationSize = 1)
+
 public class Carburant {
     @Id
     @Column(name = "id_carburant", nullable = false)
+
     private String id_carburant;
     private String nom_carburant;
 
@@ -37,6 +38,9 @@ public class Carburant {
 
     public Carburant(String nom_carburant) {
         this.setNom_carburant(nom_carburant);
+    }
+    public static String getSequenceName(){
+        return "carburant_seq";
     }
 
 }
