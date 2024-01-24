@@ -41,8 +41,41 @@ public class CarburantController {
         return  returnType;
     }
 
+//    @PutMapping("/{id}")
+//    public Carburant updateCarburant(@RequestBody Carburant carburant, @PathVariable String id) {
+//        return carburantRepository.findById(String.valueOf(id)).map(
+//                carburant1 -> {
+//                    carburant1.setNom_carburant(carburant.getNom_carburant());
+//
+//                    return carburantRepository.save(carburant1);
+//                }
+//        ).orElseGet(() -> {
+//                    carburant.setId_carburant(String.valueOf(id));
+//                    return carburantRepository.save(carburant);
+//
+//                }
+//        );
+//    }
     @PutMapping("/{id}")
-    public Carburant updateCarburant(@RequestBody Carburant carburant, @PathVariable String id) {
+    public Object updateCarburantbis(@RequestBody Carburant carburant, @PathVariable String id) {
+        Carburant carburant1=new Carburant();
+        HashMap<String, Object> returnValue=new HashMap<>();
+        try{
+            carburant1=UpdateCarburantObj(carburant,id);
+            returnValue.put("erreur",null);
+            returnValue.put("statut",404);
+            returnValue.put("donnee",carburant1);
+        }
+        catch (Exception e){
+            returnValue.put("erreur",e.getMessage());
+            returnValue.put("statut",404);
+            returnValue.put("donnee",null);
+
+        }
+        return returnValue;
+    }
+
+    public Carburant UpdateCarburantObj(Carburant carburant, String id){
         return carburantRepository.findById(String.valueOf(id)).map(
                 carburant1 -> {
                     carburant1.setNom_carburant(carburant.getNom_carburant());
@@ -56,6 +89,7 @@ public class CarburantController {
                 }
         );
     }
+
 
     @DeleteMapping("/{id}")
     public Object deleteCarburant(@PathVariable String id) throws IllegalAccessException {
