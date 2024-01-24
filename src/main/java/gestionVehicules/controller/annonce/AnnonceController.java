@@ -28,8 +28,8 @@ public class AnnonceController {
         HashMap<String,Object> returnType=new HashMap<>();
         List<Annonce>annonceList=annonceRepository.findAll();
         returnType.put("donnee",annonceList);
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return returnType;
     }
 
@@ -37,8 +37,8 @@ public class AnnonceController {
     public Object getAnnoncesEnCoursDeValidation(){
         List<Annonce>annonceList= annonceRepository.getAnnoncesEnCoursDeValidation();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",annonceList);
         return returnType;
     }
@@ -47,8 +47,8 @@ public class AnnonceController {
     public Object getAnnoncesValidees(){
         List<Annonce>annonceList= annonceRepository.getAnnoncesValidees();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",annonceList);
         return returnType;
     }
@@ -59,8 +59,8 @@ public class AnnonceController {
     public Object getAnnoncesVendues(){
         List<Annonce>annonceList= annonceRepository.getAnnoncesVendues();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",annonceList);
         return returnType;
 
@@ -69,8 +69,8 @@ public class AnnonceController {
     public Object getAnnoncesRefusees(){
         List<Annonce>annonceList= annonceRepository.getAnnoncesRefusees();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",annonceList);
         return returnType;
     }
@@ -79,8 +79,8 @@ public class AnnonceController {
     public Object validerAnnonce(@PathVariable String id){
         annonceRepository.validerAnnonce(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return returnType;
     }
 
@@ -88,8 +88,8 @@ public class AnnonceController {
     public Object refuserAnnonce(@PathVariable String id){
         annonceRepository.refuserAnnonce(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return returnType;
     }
 
@@ -97,8 +97,8 @@ public class AnnonceController {
     public Object vendreAnnonce(@PathVariable String id){
         annonceRepository.vendreAnnonce(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return returnType;
     }
 

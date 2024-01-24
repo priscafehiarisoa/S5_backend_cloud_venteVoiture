@@ -4,10 +4,12 @@ import gestionVehicules.model.user.Utilisateur;
 import gestionVehicules.model.vehicule.Carburant;
 import gestionVehicules.model.vehicule.Vehicule;
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Entity
+@ToString
 public class Annonce {
     @Id
     @Column(name = "id_annonce", nullable = false)

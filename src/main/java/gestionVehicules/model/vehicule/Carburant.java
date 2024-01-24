@@ -1,10 +1,17 @@
 package gestionVehicules.model.vehicule;
 
+import gestionVehicules.repository.BoiteRepository;
+import gestionVehicules.repository.CarburantRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.ToString;
+
+import java.util.Optional;
 
 @Entity
+@ToString
+
 public class Carburant {
     @Id
     @Column(name = "id_carburant", nullable = false)
@@ -37,6 +44,14 @@ public class Carburant {
 
     public Carburant(String nom_carburant) {
         this.setNom_carburant(nom_carburant);
+    }
+
+    public Carburant getCarburantById(String id, CarburantRepository carburantRepository) throws Exception {
+        Optional<Carburant> optional=carburantRepository.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        throw new Exception("le type de Carburant avec un id : "+id+" n'existe pas");
     }
 
 }

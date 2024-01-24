@@ -1,10 +1,17 @@
 package gestionVehicules.model.vehicule;
 
+import gestionVehicules.repository.CarburantRepository;
+import gestionVehicules.repository.CategorieRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.ToString;
+
+import java.util.Optional;
 
 @Entity
+@ToString
+
 public class Categorie {
     @Id
     @Column(name = "id_categorie", nullable = false)
@@ -34,6 +41,13 @@ public class Categorie {
     public Categorie(String id_categorie, String nom_categorie) {
         this.setId_categorie(id_categorie);
         this.setNom_categorie(nom_categorie);
+    }
+    public Categorie getCategorieById(String id, CategorieRepository categorieRepository) throws Exception {
+        Optional<Categorie> optional=categorieRepository.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        throw new Exception("le type de Categorie avec un id : "+id+" n'existe pas");
     }
 
     public Categorie(String nom_categorie) {

@@ -1,4 +1,4 @@
-package gestionVehicules.controller;
+package gestionVehicules.controller.chat;
 
 import gestionVehicules.model.UtilisateurTest;
 import gestionVehicules.repository.UtilisateurTestRepository;

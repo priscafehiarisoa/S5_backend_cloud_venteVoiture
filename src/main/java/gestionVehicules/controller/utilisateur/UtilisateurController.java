@@ -1,4 +1,4 @@
-package gestionVehicules.controller;
+package gestionVehicules.controller.utilisateur;
 
 
 import gestionVehicules.model.user.Utilisateur;

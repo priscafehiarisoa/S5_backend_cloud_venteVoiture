@@ -1,8 +1,15 @@
 package gestionVehicules.model.vehicule;
 
+import gestionVehicules.repository.ModeleRepository;
 import jakarta.persistence.*;
+import lombok.ToString;
+
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 @Entity
+@ToString
+
 public class Modele {
     @Id
     @Column(name = "id_modele", nullable = false)
@@ -51,5 +58,13 @@ public class Modele {
         this.setNom_modele(nom_modele);
         this.setMarque(marque);
 
+    }
+
+    public Modele getModeleById(String id, ModeleRepository modeleRepository) throws Exception {
+        Optional<Modele> optionalModele=modeleRepository.findById(id);
+        if(optionalModele.isPresent()){
+            return optionalModele.get();
+        }
+        throw new Exception("le modele avec un id : "+id+" n'existe pas");
     }
 }

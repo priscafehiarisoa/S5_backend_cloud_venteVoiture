@@ -1,10 +1,16 @@
 package gestionVehicules.model.vehicule;
 
+import gestionVehicules.repository.MoteurRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.ToString;
+
+import java.util.Optional;
 
 @Entity
+@ToString
+
 public class Moteur {
     @Id
     @Column(name = "id_moteur", nullable = false)
@@ -51,5 +57,12 @@ public class Moteur {
         this.setNom_moteur(nom_moteur);
         this.setPuissance(puissance);
 
+    }
+    public Moteur getMoteurById(String id, MoteurRepository moteurRepository) throws Exception {
+        Optional<Moteur> optional=moteurRepository.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        throw new Exception("le type de Moteur avec un id : "+id+" n'existe pas");
     }
 }

@@ -1,10 +1,17 @@
 package gestionVehicules.model.vehicule;
 
+import gestionVehicules.repository.BoiteRepository;
+import gestionVehicules.repository.ModeleRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.ToString;
+
+import java.util.Optional;
 
 @Entity
+@ToString
+
 public class Boite {
     @Id
     @Column(name = "id_boite", nullable = false)
@@ -38,5 +45,12 @@ public class Boite {
 
     public Boite(String nom_boite) {
         this.setNom_boite(nom_boite);
+    }
+    public Boite getBoiteById(String id, BoiteRepository boiteRepository) throws Exception {
+        Optional<Boite> optional=boiteRepository.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        throw new Exception("le type de boite avec un id : "+id+" n'existe pas");
     }
 }
