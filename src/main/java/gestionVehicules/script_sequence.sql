@@ -12,3 +12,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 select * from getsequence(3,'PRA','moteur_seq')
+
+
+--  get solde client
+select * from commissions

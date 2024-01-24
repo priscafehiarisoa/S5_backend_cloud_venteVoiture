@@ -1,5 +1,6 @@
 package gestionVehicules.model.user;
 
+import gestionVehicules.repository.user.UtilisateurRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Builder
@@ -114,5 +116,12 @@ public class Utilisateur implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public static Utilisateur getOptionalUserById(String id,UtilisateurRepository utilisateurRepository) throws Exception {
+        Optional<Utilisateur> optionalUtilisateur = utilisateurRepository.findById(id);
+        if(optionalUtilisateur.isPresent()){
+            return optionalUtilisateur.get();
+        }
+        throw new Exception("utilisateur inexistant");
     }
 }

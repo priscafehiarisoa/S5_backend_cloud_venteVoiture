@@ -1,9 +1,13 @@
 package gestionVehicules;
 
 import gestionVehicules.model.UtilisateurTest;
+import gestionVehicules.repository.CommissionAnnonceRepository;
+import gestionVehicules.repository.CommissionsRepository;
+import gestionVehicules.repository.TransactionsRepository;
 import gestionVehicules.repository.UtilisateurTestRepository;
 import gestionVehicules.repository.chat.MessageRepository;
 import gestionVehicules.model.chat.Message;
+import gestionVehicules.repository.user.UtilisateurRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +21,11 @@ import java.util.Optional;
 public class Main {
     @Bean
     CommandLineRunner commandLineRunner(MessageRepository messageRepository,
-                                        UtilisateurTestRepository utilisateurTestRepository){
+                                        UtilisateurTestRepository utilisateurTestRepository,
+                                        CommissionsRepository commissionsRepository,
+                                        TransactionsRepository transactionsRepository,
+                                        UtilisateurRepository utilisateurRepository,
+                                        CommissionAnnonceRepository commissionAnnonceRepository){
         return args -> {
 //            Message m1= new Message();
 //            m1.setIdExpediteur("1");
@@ -57,6 +65,9 @@ public class Main {
 //            utilisateurTestRepository.saveAll(users);
 //
 //            Message.getConversation("1","2",messageRepository).forEach(System.out::println);
+            System.out.println(commissionsRepository.getSumCommsiision());
+            System.out.println("transaction : "+transactionsRepository.getSoldeClient(utilisateurRepository.findById("USR1").get()));
+            System.out.println("com : "+commissionAnnonceRepository.getCommissionAnnonceByPrixAnnonce(2000000000));
         };
     }
 }
