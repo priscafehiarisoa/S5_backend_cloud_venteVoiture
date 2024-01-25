@@ -1,8 +1,18 @@
 package gestionVehicules.model.vehicule;
 
+import gestionVehicules.repository.BoiteRepository;
+import gestionVehicules.repository.CarburantRepository;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.ToString;
+
+import java.util.Optional;
 import jakarta.persistence.*;
 
 @Entity
+@ToString
+
 @SequenceGenerator(name = "carburant_seq_g", sequenceName = "carburant_seq", allocationSize = 1)
 
 public class Carburant {
@@ -41,6 +51,14 @@ public class Carburant {
     }
     public static String getSequenceName(){
         return "carburant_seq";
+    }
+
+    public Carburant getCarburantById(String id, CarburantRepository carburantRepository) throws Exception {
+        Optional<Carburant> optional=carburantRepository.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        throw new Exception("le type de Carburant avec un id : "+id+" n'existe pas");
     }
 
 }

@@ -5,6 +5,7 @@ import gestionVehicules.model.vehicule.Categorie;
 import gestionVehicules.repository.CategorieRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class CategorieController {
     @GetMapping
     public Object getAllCategories(){
 
-    List<Categorie>categories= categorieRepository.findAll();
+    List<Categorie>categories= categorieRepository.categorieDispo();
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("donnee",categories);
         returnType.put("statut",200);
@@ -81,5 +82,16 @@ public class CategorieController {
         returnType.put("statut",200);
         returnType.put("erreur",null);
         return  returnType;
+    }
+
+    @PutMapping("/updateEtat/{id}")
+    public ResponseEntity<?> updateCategorieEtat(@PathVariable String id) {
+        try {
+            // Appel du service pour mettre à jour l'état de la catégorie avec l'ID spécifié.
+            categorieRepository.updateCategorieEtat(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la mise à jour de l'état de la catégorie.");
+        }
     }
 }

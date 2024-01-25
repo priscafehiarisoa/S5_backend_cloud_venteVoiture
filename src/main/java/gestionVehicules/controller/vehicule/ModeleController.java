@@ -7,6 +7,7 @@ import gestionVehicules.repository.MarqueRepository;
 import gestionVehicules.repository.ModeleRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class ModeleController {
     }
     @GetMapping
     public Object getAllModele(){
-        List<Modele>modeles= modeleRepository.findAll();
+        List<Modele>modeles= modeleRepository.modeleDispo();
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
@@ -91,5 +92,16 @@ public class ModeleController {
         returnType.put("statut",200);
         returnType.put("erreur",null);
         return  returnType;
+    }
+
+    @PutMapping("/updateEtat/{id}")
+    public ResponseEntity<?> updateModeleEtat(@PathVariable String id) {
+        try {
+            // Appel du service pour mettre à jour l'état de la catégorie avec l'ID spécifié.
+            modeleRepository.updateModeleEtat(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la mise à jour de l'état du modele.");
+        }
     }
 }

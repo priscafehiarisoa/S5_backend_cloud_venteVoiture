@@ -1,8 +1,17 @@
 package gestionVehicules.model.vehicule;
 
+import gestionVehicules.repository.MoteurRepository;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.ToString;
+
+import java.util.Optional;
 import jakarta.persistence.*;
 
 @Entity
+@ToString
+
 @SequenceGenerator(name = "moteur_seq_g", sequenceName = "moteur_seq", allocationSize = 1)
 
 public class Moteur {
@@ -13,6 +22,18 @@ public class Moteur {
     private String nom_moteur;
 
     private double puissance;
+    private int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    public void setEtat() {
+        this.etat = 1;
+    }
 
     public double getPuissance() {
         return puissance;
@@ -24,7 +45,7 @@ public class Moteur {
 
         }
         else {
-            throw new Exception("la puissance e peut pas etre negative");
+            throw new Exception("la puissance ne peut pas etre negative");
         }
     }
 
@@ -57,14 +78,23 @@ public class Moteur {
         this.setId_moteur(id_moteur);
         this.setNom_moteur(nom_moteur);
         this.setPuissance(puissance);
+        this.setEtat();
     }
 
     public Moteur(String nom_moteur,double puissance) throws Exception {
         this.setNom_moteur(nom_moteur);
         this.setPuissance(puissance);
+        this.setEtat();
 
     }
     public static String getSequenceName(){
         return "moteur_seq";
+    }
+    public Moteur getMoteurById(String id, MoteurRepository moteurRepository) throws Exception {
+        Optional<Moteur> optional=moteurRepository.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        throw new Exception("le type de Moteur avec un id : "+id+" n'existe pas");
     }
 }

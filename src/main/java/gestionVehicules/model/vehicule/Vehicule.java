@@ -1,8 +1,11 @@
 package gestionVehicules.model.vehicule;
 
+import gestionVehicules.repository.CategorieRepository;
+import gestionVehicules.repository.VehiculeRepository;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @SequenceGenerator(name = "vehicule_seq_g", sequenceName = "vehicule_seq", allocationSize = 1)
@@ -208,6 +211,32 @@ public class Vehicule {
         this.setModele(modele);
         this.setMoteur(moteur);
         this.setPays(pays);
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicule{" +
+                "id_vehicule='" + id_vehicule + '\'' +
+                ", immatricule='" + immatricule + '\'' +
+                ", annee_fabrication=" + annee_fabrication +
+                ", kilometrage_vehicule=" + kilometrage_vehicule +
+                ", nombre_sieges=" + nombre_sieges +
+                ", masse_vehicule=" + masse_vehicule +
+                ", boite=" + boite +
+                ", carburant=" + carburant +
+                ", categorie=" + categorie +
+                ", couleur=" + couleur +
+                ", modele=" + modele +
+                ", moteur=" + moteur +
+                ", pays=" + pays +
+                '}';
+    }
+    public Vehicule getVehiculeById(String id, VehiculeRepository VehiculeRepository) throws Exception {
+        Optional<Vehicule> optional=VehiculeRepository.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }
+        throw new Exception("le type de Vehicule avec un id : "+id+" n'existe pas");
     }
     public static String getSequenceName(){
         return "vehicule_seq";

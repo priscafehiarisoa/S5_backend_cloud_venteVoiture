@@ -1,6 +1,9 @@
 package gestionVehicules;
 
 import gestionVehicules.model.UtilisateurTest;
+import gestionVehicules.model.vehicule.*;
+import gestionVehicules.repository.*;
+import gestionVehicules.repository.annonce.AnnonceRepository;
 import gestionVehicules.repository.CommissionAnnonceRepository;
 import gestionVehicules.repository.CommissionsRepository;
 import gestionVehicules.repository.TransactionsRepository;
@@ -21,6 +24,17 @@ import java.util.Optional;
 public class Main {
     @Bean
     CommandLineRunner commandLineRunner(MessageRepository messageRepository,
+                                        UtilisateurTestRepository utilisateurTestRepository,
+                                        BoiteRepository boiteRepository,
+                                        CarburantRepository carburantRepository,
+                                        CategorieRepository categorieRepository,
+                                        CouleurRepository couleurRepository,
+                                        MarqueRepository marqueRepository,
+                                        ModeleRepository modeleRepository,
+                                        MoteurRepository moteurRepository,
+                                        PaysRepository paysRepository,
+                                        VehiculeRepository vehiculeRepository,
+                                        AnnonceRepository annonceRepository){
                                         UtilisateurTestRepository utilisateurTestRepository,
                                         CommissionsRepository commissionsRepository,
                                         TransactionsRepository transactionsRepository,
@@ -65,9 +79,89 @@ public class Main {
 //            utilisateurTestRepository.saveAll(users);
 //
 //            Message.getConversation("1","2",messageRepository).forEach(System.out::println);
+            // donnees de tests
+            List<Boite> boites = new ArrayList<>();
+            boites.add(new Boite("B1", "Boite automatique"));
+            boites.add(new Boite("B2", "Boite manuelle"));
+            boiteRepository.saveAll(boites);
+
+// Liste d'exemples pour la classe Carburant
+            List<Carburant> carburants = new ArrayList<>();
+            carburants.add(new Carburant("C1", "Essence"));
+            carburants.add(new Carburant("C2", "Diesel"));
+            carburantRepository.saveAll(carburants);
+
+// Liste d'exemples pour la classe Categorie
+            List<Categorie> categories = new ArrayList<>();
+            categories.add(new Categorie("CAT1", "Compacte"));
+            categories.add(new Categorie("CAT2", "Berline"));
+            categorieRepository.saveAll(categories);
+
+// Liste d'exemples pour la classe Couleur
+            List<Couleur> couleurs = new ArrayList<>();
+            couleurs.add(new Couleur("COU1", "Bleu"));
+            couleurs.add(new Couleur("COU2", "Rouge"));
+            couleurRepository.saveAll(couleurs);
+
+// Liste d'exemples pour la classe Marque
+            List<Marque> marques = new ArrayList<>();
+            marques.add(new Marque("M1", "Toyota"));
+            marques.add(new Marque("M2", "Honda"));
+            marqueRepository.saveAll(marques);
+
+// Liste d'exemples pour la classe Modele
+            List<Modele> modeles = new ArrayList<>();
+            modeles.add(new Modele("MOD1", "Corolla", marques.get(0)));
+            modeles.add(new Modele("MOD2", "Civic", marques.get(1)));
+            modeleRepository.saveAll(modeles);
+
+// Liste d'exemples pour la classe Moteur
+            List<Moteur> moteurs = new ArrayList<>();
+            moteurs.add(new Moteur("MT1", "Essence 1.8L", 150.5));
+            moteurs.add(new Moteur("MT2", "Diesel 2.0L", 180.0));
+            moteurRepository.saveAll(moteurs);
+
+// Liste d'exemples pour la classe Pays
+            List<Pays> paysList = new ArrayList<>();
+            paysList.add(new Pays("P1", "France"));
+            paysList.add(new Pays("P2", "Allemagne"));
+            paysRepository.saveAll(paysList);
+
+// Liste d'exemples pour la classe Vehicule
+            List<Vehicule> vehicules = new ArrayList<>();
+            try {
+                vehicules.add(new Vehicule("V1", "ABC123", 2022, 5000.0, 5, 1200.0, boites.get(0), carburants.get(0), categories.get(0), couleurs.get(0), modeles.get(0), moteurs.get(0), paysList.get(0)));
+                vehicules.add(new Vehicule("V2", "XYZ456", 2020, 8000.0, 7, 1500.0, boites.get(1), carburants.get(1), categories.get(1), couleurs.get(1), modeles.get(1), moteurs.get(1), paysList.get(1)));
+                vehiculeRepository.saveAll(vehicules);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // test recherche de vehicule
+
+            annonceRepository.recherche_multi_critere_annonce(
+                    List.of(marques.get(0)),
+                    modeles,
+                    0
+                    ,1000000000,
+                    LocalDateTime.now().minusDays(1),
+                    LocalDateTime.now(),
+                    1000,
+                    2024,
+                    100,
+                    20000,
+                    0,
+                    100000000,
+                    boites,
+                    carburants,
+                    couleurs,
+                    moteurs,
+                    paysList).forEach(System.out::println);
+
             System.out.println(commissionsRepository.getSumCommsiision());
             System.out.println("transaction : "+transactionsRepository.getSoldeClient(utilisateurRepository.findById("USR1").get()));
             System.out.println("com : "+commissionAnnonceRepository.getCommissionAnnonceByPrixAnnonce(2000000000));
         };
     }
+}
 }

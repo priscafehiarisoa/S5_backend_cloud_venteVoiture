@@ -5,6 +5,7 @@ import gestionVehicules.model.vehicule.Pays;
 import gestionVehicules.repository.PaysRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class PaysController {
 
     @GetMapping
     public Object getAllPays(){
-        List<Pays>paysList= paysRepository.findAll();
+        List<Pays>paysList= paysRepository.paysDispo();
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
@@ -76,5 +77,16 @@ public class PaysController {
         returnType.put("statut",200);
         returnType.put("erreur",null);
         return  returnType;
+    }
+
+    @PutMapping("/updateEtat/{id}")
+    public ResponseEntity<?> updatePaysEtat(@PathVariable String id) {
+        try {
+            // Appel du service pour mettre à jour l'état de la catégorie avec l'ID spécifié.
+            paysRepository.updatePaysEtat(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la mise à jour de l'état du pays.");
+        }
     }
 }

@@ -1,8 +1,15 @@
 package gestionVehicules.model.vehicule;
 
+import gestionVehicules.repository.ModeleRepository;
 import jakarta.persistence.*;
+import lombok.ToString;
+
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 @Entity
+@ToString
+
 @SequenceGenerator(name = "modele_seq_g", sequenceName = "modele_seq", allocationSize = 1)
 
 public class Modele {
@@ -15,6 +22,19 @@ public class Modele {
     @ManyToOne
     @JoinColumn(name = "id_marque")
     private Marque marque;
+
+    private int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    public void setEtat() {
+        this.etat = 1;
+    }
 
     public Marque getMarque() {
         return marque;
@@ -53,14 +73,24 @@ public class Modele {
         this.setId_modele(id_modele);
         this.setNom_modele(nom_modele);
         this.setMarque(marque);
+        this.setEtat();
     }
 
     public Modele(String nom_modele,Marque marque) throws Exception {
         this.setNom_modele(nom_modele);
         this.setMarque(marque);
+        this.setEtat();
 
     }
     public static String getSequenceName(){
         return "modele_seq";
+    }
+
+    public Modele getModeleById(String id, ModeleRepository modeleRepository) throws Exception {
+        Optional<Modele> optionalModele=modeleRepository.findById(id);
+        if(optionalModele.isPresent()){
+            return optionalModele.get();
+        }
+        throw new Exception("le modele avec un id : "+id+" n'existe pas");
     }
 }

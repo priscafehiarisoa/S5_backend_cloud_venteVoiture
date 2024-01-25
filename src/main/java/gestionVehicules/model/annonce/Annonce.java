@@ -6,11 +6,13 @@ import gestionVehicules.model.vehicule.Vehicule;
 import gestionVehicules.repository.annonce.AnnonceRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import jakarta.persistence.*;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Entity
+@ToString
 @SequenceGenerator(name = "annonce_seq_g", sequenceName = "annonce_seq", allocationSize = 1)
 
 public class Annonce {
@@ -117,6 +119,13 @@ public class Annonce {
     public void setId_annonce(String id_annonce) {
         this.id_annonce = id_annonce;
     }
+
+     public HashMap<String,Object> getAnnoncemodifie(){
+         HashMap<String,Object> annonce=new HashMap<>();
+         return annonce;
+
+     }
+
     public static Annonce getAnnonceById(String id, AnnonceRepository annonceRepository) throws Exception {
         Optional<Annonce> annonce=annonceRepository.findById(id);
         if(annonce.isPresent()){

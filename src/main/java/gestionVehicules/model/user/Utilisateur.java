@@ -5,12 +5,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +20,8 @@ import java.util.Optional;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+
 public class Utilisateur implements UserDetails {
     @Id
     @Column(name="id_user")
@@ -123,5 +127,15 @@ public class Utilisateur implements UserDetails {
             return optionalUtilisateur.get();
         }
         throw new Exception("utilisateur inexistant");
+    }
+
+
+    public HashMap<String,Object> getNometPrenomIdUtilisateur(){
+        HashMap<String,Object> utilisateur=new HashMap<>();
+        utilisateur.put("id_user",this.getId_user());
+        utilisateur.put("nom",this.getNom());
+        utilisateur.put("prenom",this.getPrenom());
+        return utilisateur;
+
     }
 }
