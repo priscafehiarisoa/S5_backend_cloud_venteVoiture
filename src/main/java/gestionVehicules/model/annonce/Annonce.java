@@ -119,6 +119,13 @@ public class Annonce {
     public void setId_annonce(String id_annonce) {
         this.id_annonce = id_annonce;
     }
+
+     public HashMap<String,Object> getAnnoncemodifie(){
+         HashMap<String,Object> annonce=new HashMap<>();
+         return annonce;
+
+     }
+
     public static Annonce getAnnonceById(String id, AnnonceRepository annonceRepository) throws Exception {
         Optional<Annonce> annonce=annonceRepository.findById(id);
         if(annonce.isPresent()){

@@ -19,6 +19,18 @@ public class Pays {
 
     private String id_pays;
     private String nom_pays;
+    private int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    public void setEtat() {
+        this.etat = 1;
+    }
 
     public Pays() {
 
@@ -48,6 +60,7 @@ public class Pays {
     public Pays(String id_pays, String nom_pays) throws Exception {
         this.setId_pays(id_pays);
         this.setNom_pays(nom_pays);
+        this.setEtat();
     }
     public Pays getPaysById(String id, PaysRepository paysRepository) throws Exception {
         Optional<Pays> optional=paysRepository.findById(id);
@@ -59,6 +72,7 @@ public class Pays {
 
     public Pays(String nom_pays) throws Exception {
         this.setNom_pays(nom_pays);
+        this.setEtat();
     }
 
     public static String getSequenceName(){

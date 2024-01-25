@@ -23,6 +23,19 @@ public class Modele {
     @JoinColumn(name = "id_marque")
     private Marque marque;
 
+    private int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    public void setEtat() {
+        this.etat = 1;
+    }
+
     public Marque getMarque() {
         return marque;
     }
@@ -60,11 +73,13 @@ public class Modele {
         this.setId_modele(id_modele);
         this.setNom_modele(nom_modele);
         this.setMarque(marque);
+        this.setEtat();
     }
 
     public Modele(String nom_modele,Marque marque) throws Exception {
         this.setNom_modele(nom_modele);
         this.setMarque(marque);
+        this.setEtat();
 
     }
     public static String getSequenceName(){
