@@ -6,6 +6,7 @@ import gestionVehicules.model.vehicule.Vehicule;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 @Entity
 public class Annonce {
@@ -89,4 +90,11 @@ public class Annonce {
     public void setId_annonce(String id_annonce) {
         this.id_annonce = id_annonce;
     }
+
+     public HashMap<String,Object> getAnnoncemodifie(){
+         HashMap<String,Object> annonce=new HashMap<>();
+         return annonce;
+
+     }
+
 }

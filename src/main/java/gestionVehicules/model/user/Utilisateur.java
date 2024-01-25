@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -114,5 +115,15 @@ public class Utilisateur implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public HashMap<String,Object> getNometPrenomIdUtilisateur(){
+        HashMap<String,Object> utilisateur=new HashMap<>();
+        utilisateur.put("id_user",this.getId_user());
+        utilisateur.put("nom",this.getNom());
+        utilisateur.put("prenom",this.getPrenom());
+        return utilisateur;
+
     }
 }
