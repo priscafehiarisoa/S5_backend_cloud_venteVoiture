@@ -7,13 +7,17 @@ import jakarta.persistence.Id;
 import lombok.ToString;
 
 import java.util.Optional;
+import jakarta.persistence.*;
 
 @Entity
 @ToString
 
+@SequenceGenerator(name = "marque_seq_g", sequenceName = "marque_seq", allocationSize = 1)
+
 public class Marque {
     @Id
     @Column(name = "id_marque", nullable = false)
+
     private String id_marque;
     private String nom_marque;
 
@@ -25,8 +29,14 @@ public class Marque {
         return nom_marque;
     }
 
-    public void setNom_marque(String nom_marque) {
-        this.nom_marque = nom_marque;
+    public void setNom_marque(String nom_marque) throws Exception {
+        if(!nom_marque.isEmpty()){
+            this.nom_marque = nom_marque;
+
+        }
+          else {
+            throw new Exception("le champ ne peut pas etre nul");
+        }
     }
 
     public String getId_marque() {
@@ -37,7 +47,7 @@ public class Marque {
         this.id_marque = id_marque;
     }
 
-    public Marque(String id_marque, String nom_marque) {
+    public Marque(String id_marque, String nom_marque) throws Exception {
         this.setId_marque(id_marque);
         this.setNom_marque(nom_marque);
     }
@@ -49,7 +59,10 @@ public class Marque {
         throw new Exception("le type de Marque avec un id : "+id+" n'existe pas");
     }
 
-    public Marque(String nom_marque) {
+    public Marque(String nom_marque) throws Exception {
         this.setNom_marque(nom_marque);
+    }
+    public static String getSequenceName(){
+        return "marque_seq";
     }
 }

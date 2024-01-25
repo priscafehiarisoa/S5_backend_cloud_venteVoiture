@@ -7,13 +7,17 @@ import jakarta.persistence.Id;
 import lombok.ToString;
 
 import java.util.Optional;
+import jakarta.persistence.*;
 
 @Entity
 @ToString
 
+@SequenceGenerator(name = "moteur_seq_g", sequenceName = "moteur_seq", allocationSize = 1)
+
 public class Moteur {
     @Id
     @Column(name = "id_moteur", nullable = false)
+
     private String id_moteur;
     private String nom_moteur;
 
@@ -23,8 +27,14 @@ public class Moteur {
         return puissance;
     }
 
-    public void setPuissance(double puissance) {
-        this.puissance = puissance;
+    public void setPuissance(double puissance) throws Exception {
+        if (puissance>0){
+            this.puissance = puissance;
+
+        }
+        else {
+            throw new Exception("la puissance e peut pas etre negative");
+        }
     }
 
     public Moteur() {
@@ -35,8 +45,13 @@ public class Moteur {
         return nom_moteur;
     }
 
-    public void setNom_moteur(String nom_moteur) {
-        this.nom_moteur = nom_moteur;
+    public void setNom_moteur(String nom_moteur) throws Exception {
+        if (!nom_moteur.isEmpty()) {
+            this.nom_moteur = nom_moteur;
+        }
+        else {
+            throw new Exception("le champ ne peut pas etre vide");
+        }
     }
 
     public String getId_moteur() {
@@ -47,16 +62,19 @@ public class Moteur {
         this.id_moteur = id_moteur;
     }
 
-    public Moteur(String id_moteur, String nom_moteur,double puissance) {
+    public Moteur(String id_moteur, String nom_moteur,double puissance) throws Exception {
         this.setId_moteur(id_moteur);
         this.setNom_moteur(nom_moteur);
         this.setPuissance(puissance);
     }
 
-    public Moteur(String nom_moteur,double puissance) {
+    public Moteur(String nom_moteur,double puissance) throws Exception {
         this.setNom_moteur(nom_moteur);
         this.setPuissance(puissance);
 
+    }
+    public static String getSequenceName(){
+        return "moteur_seq";
     }
     public Moteur getMoteurById(String id, MoteurRepository moteurRepository) throws Exception {
         Optional<Moteur> optional=moteurRepository.findById(id);

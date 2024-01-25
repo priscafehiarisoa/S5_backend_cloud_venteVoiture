@@ -1,5 +1,6 @@
 package gestionVehicules.model.vehicule;
 
+import jakarta.persistence.*;
 import gestionVehicules.repository.BoiteRepository;
 import gestionVehicules.repository.ModeleRepository;
 import jakarta.persistence.Column;
@@ -12,9 +13,12 @@ import java.util.Optional;
 @Entity
 @ToString
 
+@SequenceGenerator(name = "boite_seq_g", sequenceName = "boite_seq", allocationSize = 1)
+
 public class Boite {
     @Id
     @Column(name = "id_boite", nullable = false)
+
     private String id_boite;
     private String nom_boite;
 
@@ -52,5 +56,8 @@ public class Boite {
             return optional.get();
         }
         throw new Exception("le type de boite avec un id : "+id+" n'existe pas");
+    }
+    public static String getSequenceName(){
+        return "boite_seq";
     }
 }

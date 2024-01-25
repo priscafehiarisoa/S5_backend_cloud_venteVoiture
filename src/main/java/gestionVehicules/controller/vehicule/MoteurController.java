@@ -3,6 +3,7 @@ package gestionVehicules.controller.vehicule;
 import gestionVehicules.model.vehicule.Marque;
 import gestionVehicules.model.vehicule.Moteur;
 import gestionVehicules.repository.MoteurRepository;
+import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,22 +17,26 @@ import java.util.List;
 public class MoteurController {
     @Autowired
     MoteurRepository moteurRepository;
+    @Autowired
+    private SequenceRepository sequenceRepository;
 
     @PostMapping
-    public Object insertMoteur(@RequestBody Moteur moteur){
+    public Object insertMoteur(@RequestBody HashMap<String,Object> mot) throws Exception {
         HashMap<String,Object> returnType=new HashMap<>();
-        try{
-        int id=moteurRepository.getNextval();
-        moteur.setId_moteur(moteurRepository.getSequence(3,"MTR",id));
-        moteurRepository.save(moteur);
-        returnType.put("statut",200);
-        returnType.put("errreur",null);
-        returnType.put("donnee",moteurRepository.findAll());
+        try {
+            Moteur moteur = new Moteur();
+            String nom_moteur = (String) mot.get("nom_moteur");
+            double puissance = (double) mot.get("puissance");
+            moteur.setPuissance(puissance);
+            moteur.setNom_moteur(nom_moteur);
+            moteur.setId_moteur(sequenceRepository.getSequence(3, "MTR", Moteur.getSequenceName()));
+            moteurRepository.save(moteur);
+            returnType.put("statut",200);
+
         }
         catch (Exception e){
-            returnType.put("statut",200);
-            returnType.put("errreur",e.getMessage());
-            returnType.put("donnee",null);
+            returnType.put("statut",404);
+            returnType.put("erreur",e);
         }
 
         return  returnType;
@@ -41,8 +46,8 @@ public class MoteurController {
     public Object getAllMoteurs(){
         List<Moteur>moteurs= moteurRepository.findAll();
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         returnType.put("donnee",moteurs);
         return  returnType;
     }
@@ -51,8 +56,16 @@ public class MoteurController {
     public Moteur updateMoteur(@RequestBody Moteur moteur, @PathVariable String id) {
         return moteurRepository.findById(String.valueOf(id)).map(
                 entity1 -> {
-                    entity1.setNom_moteur(moteur.getNom_moteur());
-                    entity1.setPuissance(moteur.getPuissance());
+                    try {
+                        entity1.setNom_moteur(moteur.getNom_moteur());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    try {
+                        entity1.setPuissance(moteur.getPuissance());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
                     return moteurRepository.save(entity1);
                 }
@@ -68,8 +81,8 @@ public class MoteurController {
     public Object deleteMoteur(@PathVariable String id) throws IllegalAccessException {
         moteurRepository.deleteById(id);
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statuts",200);
-        returnType.put("errreur",null);
+        returnType.put("statut",200);
+        returnType.put("erreur",null);
         return  returnType;
     }
 }

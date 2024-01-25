@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Entity
+@SequenceGenerator(name = "vehicule_seq_g", sequenceName = "vehicule_seq", allocationSize = 1)
 public class Vehicule {
     @Id
     @Column(name = "id_vehicule", nullable = false)
@@ -71,8 +72,13 @@ public class Vehicule {
         return immatricule;
     }
 
-    public void setImmatricule(String immatricule) {
-        this.immatricule = immatricule;
+    public void setImmatricule(String immatricule) throws Exception {
+        if (!immatricule.isEmpty()) {
+            this.immatricule = immatricule;
+        }
+        else {
+            throw new Exception("le champ ne peut pas etre vide");
+        }
     }
 
     public int getAnnee_fabrication() {
@@ -231,5 +237,8 @@ public class Vehicule {
             return optional.get();
         }
         throw new Exception("le type de Vehicule avec un id : "+id+" n'existe pas");
+    }
+    public static String getSequenceName(){
+        return "vehicule_seq";
     }
 }
