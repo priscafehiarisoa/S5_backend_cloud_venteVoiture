@@ -34,6 +34,16 @@ public class Annonce {
 
     private int etat;
     private double commission=0;
+    @Transient
+    private boolean isInFavorites=true;
+
+    public boolean isInFavorites() {
+        return isInFavorites;
+    }
+
+    public void setInFavorites(boolean inFavorites) {
+        isInFavorites = inFavorites;
+    }
 
     public double getTotalCommission() {
         return (getPrix()*getCommission())/100;
