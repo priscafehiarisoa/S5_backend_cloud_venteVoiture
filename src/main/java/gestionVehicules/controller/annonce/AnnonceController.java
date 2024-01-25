@@ -93,6 +93,8 @@ public class AnnonceController {
         returnType.put("statut",200);
         returnType.put("erreur",null);
         returnType.put("donnee",annonceList);
+        annonceRepository.getAnnoncesValidees().forEach(System.out::println);
+        annonceRepository.findAll().forEach(System.out::println);
         return returnType;
     }
 
