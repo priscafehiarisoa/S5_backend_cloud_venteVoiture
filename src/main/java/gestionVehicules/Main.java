@@ -34,8 +34,7 @@ public class Main {
                                         MoteurRepository moteurRepository,
                                         PaysRepository paysRepository,
                                         VehiculeRepository vehiculeRepository,
-                                        AnnonceRepository annonceRepository){
-                                        UtilisateurTestRepository utilisateurTestRepository,
+                                        AnnonceRepository annonceRepository,
                                         CommissionsRepository commissionsRepository,
                                         TransactionsRepository transactionsRepository,
                                         UtilisateurRepository utilisateurRepository,
@@ -158,10 +157,7 @@ public class Main {
                     moteurs,
                     paysList).forEach(System.out::println);
 
-            System.out.println(commissionsRepository.getSumCommsiision());
-            System.out.println("transaction : "+transactionsRepository.getSoldeClient(utilisateurRepository.findById("USR1").get()));
-            System.out.println("com : "+commissionAnnonceRepository.getCommissionAnnonceByPrixAnnonce(2000000000));
-        };
+      };
     }
 }
-}
+

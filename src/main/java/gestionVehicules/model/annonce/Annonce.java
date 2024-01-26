@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Entity
@@ -38,6 +39,10 @@ public class Annonce {
     private double commission=0;
     @Transient
     private boolean isInFavorites=true;
+
+    public Annonce() {
+
+    }
 
     public boolean isInFavorites() {
         return isInFavorites;
@@ -122,6 +127,14 @@ public class Annonce {
 
      public HashMap<String,Object> getAnnoncemodifie(){
          HashMap<String,Object> annonce=new HashMap<>();
+         annonce.put("vehicule",this.getVehicule());
+         annonce.put("description",this.getDescription());
+         annonce.put("prix",this.getPrix());
+         annonce.put("etat",this.getEtat());
+         annonce.put("inFavorites",this.isInFavorites());
+         annonce.put("prixVehiculeAvecCommission",this.getPrixVehiculeAvecCommission());
+         annonce.put("utilisateur",this.getUtilisateur().getNometPrenomIdUtilisateur());
+         annonce.put("date_annonce",this.getDate_annonce());
          return annonce;
 
      }
@@ -147,5 +160,26 @@ public class Annonce {
     public double getPrixVehiculeAvecCommission(){
         double commission=(getCommission()*getPrix())/100;
         return getPrix()+commission;
+    }
+
+    public Annonce(String id_annonce, Utilisateur utilisateur, Vehicule vehicule, String description, LocalDateTime date_annonce, double prix, int etat, double commission) throws Exception {
+        this.setId_annonce(id_annonce);
+        this.setUtilisateur(utilisateur);
+        this.setVehicule(vehicule);
+        this.setDescription(description);
+        this.setDate_annonce(date_annonce);
+        this.setPrix(prix);
+        this.setEtat(etat);
+        this.setCommission(commission);
+    }
+
+    public Annonce(Utilisateur utilisateur, Vehicule vehicule, String description, LocalDateTime date_annonce, double prix, int etat, double commission) throws Exception {
+        this.setUtilisateur(utilisateur);
+        this.setVehicule(vehicule);
+        this.setDescription(description);
+        this.setDate_annonce(date_annonce);
+        this.setPrix(prix);
+        this.setEtat(etat);
+        this.setCommission(commission);
     }
 }
