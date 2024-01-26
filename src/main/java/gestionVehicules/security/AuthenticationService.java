@@ -2,6 +2,7 @@ package gestionVehicules.security;
 
 import gestionVehicules.model.user.Role;
 import gestionVehicules.model.user.Utilisateur;
+import gestionVehicules.repository.sequence.SequenceRepository;
 import gestionVehicules.repository.user.UtilisateurRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,11 +17,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final SequenceRepository sequenceRepository;
 
     public AuthenticationResponse register(RegisterRequest request) {
         int sequence = utilisateurRepository.getNextval();
         var user = Utilisateur.builder()
-                .id_user(new Utilisateur().getId())
+                .id_user(sequenceRepository.getSequence(3,"USR",new Utilisateur().getSequenceName()))
                 .nom(request.getNom())
                 .prenom(request.getPrenom())
                 .date_naissance(request.getDate_naissance())

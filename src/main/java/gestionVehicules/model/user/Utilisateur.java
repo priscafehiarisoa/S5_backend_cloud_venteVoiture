@@ -28,6 +28,7 @@ import java.util.Optional;
 @ToString
 @Getter
 @Setter
+@SequenceGenerator(name = "user_seq_g", sequenceName = "user_seq", allocationSize = 1)
 
 public class Utilisateur implements UserDetails {
     @Id
@@ -117,4 +118,8 @@ public class Utilisateur implements UserDetails {
         return utilisateur;
 
     }
+    public String getSequenceName(){
+        return "user_seq";
+    }
+
 }
