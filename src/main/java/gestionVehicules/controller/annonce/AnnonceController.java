@@ -175,6 +175,18 @@ public class AnnonceController {
         return returnValue;
 
     }
+    @GetMapping("/getAnnonceById/{id}")
+    public Object getAnnonceById(@PathVariable("id") String id)  {
+        HashMap<String,Object> hashMap=new HashMap<>();
+        try {
+            Annonce annonce = Annonce.getAnnonceById(id, annonceRepository);
+            hashMap.put("donnee",annonce);
+        }catch (Exception e){
+            hashMap.put("erreur",e.getMessage());
+        }
+
+        return hashMap;
+    }
 
 
 
