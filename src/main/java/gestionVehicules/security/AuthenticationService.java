@@ -20,7 +20,7 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
         int sequence = utilisateurRepository.getNextval();
         var user = Utilisateur.builder()
-                .id_user(utilisateurRepository.getSequence(5,"USR",sequence))
+                .id_user(new Utilisateur().getId())
                 .nom(request.getNom())
                 .prenom(request.getPrenom())
                 .date_naissance(request.getDate_naissance())
