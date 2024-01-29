@@ -30,9 +30,15 @@ public class SecurityConfig {
 
                 .requestMatchers("/SendMessage")
                 .authenticated()
-                .requestMatchers(HttpMethod.POST,"/carburant","/categorie","/couleur","/marque","/statistiques/*","/modele","/pays")
+                .requestMatchers(HttpMethod.POST,"/carburant","/categorie","/couleur","/marque","/modele","/pays")
 //                crud rehetra
                 .hasAuthority(String.valueOf(Role.ADMIN))
+                .requestMatchers(HttpMethod.GET,"/carburant","/categorie","/couleur","/marque","/modele","/pays")
+                .permitAll()
+                .requestMatchers("/statistiques/*")
+                .hasAuthority(String.valueOf(Role.ADMIN))
+//                .permitAll()
+//                .authenticated()
                 .anyRequest()
                 .permitAll()
                 .and()
