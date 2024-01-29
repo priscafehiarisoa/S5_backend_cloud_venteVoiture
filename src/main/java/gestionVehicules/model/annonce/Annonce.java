@@ -1,6 +1,7 @@
 package gestionVehicules.model.annonce;
 
 import gestionVehicules.model.user.Utilisateur;
+import gestionVehicules.model.utils.Utils;
 import gestionVehicules.model.vehicule.Carburant;
 import gestionVehicules.model.vehicule.Vehicule;
 import gestionVehicules.repository.annonce.AnnonceRepository;
@@ -43,6 +44,7 @@ public class Annonce {
     public boolean isInFavorites() {
         return isInFavorites;
     }
+
 
     public void setInFavorites(boolean inFavorites) {
         isInFavorites = inFavorites;
@@ -90,6 +92,9 @@ public class Annonce {
 
     public void setDate_annonce(LocalDateTime date_annonce) {
         this.date_annonce = date_annonce;
+    }
+    public void setDate_annonce(String date_annonce) {
+        setDate_annonce(Utils.convertToDateTime(date_annonce));
     }
 
     public double getPrix() {
