@@ -75,6 +75,18 @@ public class CategorieController {
         );
     }
 
+//    @PutMapping("/{id}")
+//    public Categorie updateCategorie(@RequestBody Categorie categorie, @PathVariable String id) throws Exception {
+//        Categorie categorie1=new Categorie();
+//        categorie1.setId_categorie(id);
+//        categorie1.setNom_categorie(categorie.getNom_categorie());
+//        categorie1.setEtat(categorie.getEtat());
+//         return categorieRepository.save(categorie1);
+//
+//    }
+
+
+
     @DeleteMapping("/{id}")
     public Object deleteCategorie(@PathVariable String id) throws IllegalAccessException {
         categorieRepository.deleteById(id);

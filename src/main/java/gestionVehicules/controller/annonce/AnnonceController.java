@@ -16,6 +16,7 @@ import gestionVehicules.repository.annonce.ImageRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import gestionVehicules.repository.user.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -111,6 +112,17 @@ public class AnnonceController {
         return returnType;
     }
 
+    @PutMapping("/validateAnnonce/{id}")
+    public ResponseEntity<?> updateannonceEtat(@PathVariable String id) {
+        try {
+            // Appel du service pour mettre à jour l'état de la catégorie avec l'ID spécifié.
+            annonceRepository.validerAnnonce(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la mise à jour de l'état de la catégorie.");
+        }
+    }
+
     @PutMapping("/refuserAnnonce/{id}")
     public Object refuserAnnonce(@PathVariable String id) {
         annonceRepository.refuserAnnonce(id);
@@ -189,6 +201,7 @@ public class AnnonceController {
             List<Annonce>annonceList=annonceRepository.findAll();
 
             Annonce annonce =annonceList.get(0);
+
             image.setImageUrl(url);
             image.setAnnonce(annonce);
             image.setId_image(sequenceRepository.getSequence(3, "IMG", image.getSequenceName()));

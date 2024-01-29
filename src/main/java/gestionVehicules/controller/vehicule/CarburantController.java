@@ -6,6 +6,7 @@ import gestionVehicules.model.vehicule.Categorie;
 import gestionVehicules.repository.CarburantRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class CarburantController {
 
     @GetMapping
     public Object getAllCarburants(){
-        List<Carburant> carburantList= carburantRepository.findAll();
+        List<Carburant> carburantList= carburantRepository.carburantDispo();
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
@@ -100,5 +101,16 @@ public class CarburantController {
         returnType.put("statut",200);
         returnType.put("erreur",null);
         return  returnType;
+    }
+
+    @PutMapping("/updateEtat/{id}")
+    public ResponseEntity<?> updateCarburantEtat(@PathVariable String id) {
+        try {
+            // Appel du service pour mettre à jour l'état de la catégorie avec l'ID spécifié.
+            carburantRepository.updateCarburantEtat(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors de la mise à jour de l'état du carburant.");
+        }
     }
 }

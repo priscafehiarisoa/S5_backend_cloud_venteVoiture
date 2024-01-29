@@ -21,6 +21,18 @@ public class Carburant {
 
     private String id_carburant;
     private String nom_carburant;
+    private int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+    public void setEtat() {
+        this.etat = 1;
+    }
 
     public Carburant() {
     }
@@ -44,10 +56,12 @@ public class Carburant {
     public Carburant(String id_carburant, String nom_carburant) {
         this.setId_carburant(id_carburant);
         this.setNom_carburant(nom_carburant);
+        this.setEtat();
     }
 
     public Carburant(String nom_carburant) {
         this.setNom_carburant(nom_carburant);
+        this.setEtat();
     }
     public static String getSequenceName(){
         return "carburant_seq";

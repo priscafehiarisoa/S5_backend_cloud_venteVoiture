@@ -40,7 +40,7 @@ public class Moteur {
     }
 
     public void setPuissance(double puissance) throws Exception {
-        if (puissance>0){
+        if (puissance>=0){
             this.puissance = puissance;
 
         }

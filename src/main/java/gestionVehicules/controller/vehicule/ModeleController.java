@@ -64,24 +64,28 @@ public class ModeleController {
     }
 
     @PutMapping("/{id}")
-    public Modele updateModele(@RequestBody Modele modele, @PathVariable String id) {
-        return modeleRepository.findById(String.valueOf(id)).map(
-                entity1 -> {
+    public Modele updateModele(@RequestBody HashMap<String,Object> mod, @PathVariable String id) {
+        Modele entity1=new Modele();
                     try {
-                        entity1.setNom_modele(modele.getNom_modele());
+
+                        String nom= String.valueOf(mod.get("nom_modele"));
+                        String idmodele= String.valueOf(mod.get("id_modele"));
+                        entity1.setId_modele(idmodele);
+                        entity1.setNom_modele(nom);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-                    entity1.setMarque(modele.getMarque());
+                    String idmarque= String.valueOf(mod.get("id_marque"));
+                    Optional<Marque> marque=marqueRepository.findById(idmarque);
+                    Marque marque1=new Marque();
+                    if(marque.isPresent()){
+                        marque1=marque.get();
+                    }
+                    entity1.setMarque(marque1);
 
                     return modeleRepository.save(entity1);
-                }
-        ).orElseGet(() -> {
-                    modele.setId_modele(String.valueOf(id));
-                    return modeleRepository.save(modele);
 
-                }
-        );
+
     }
 
     @DeleteMapping("/{id}")
