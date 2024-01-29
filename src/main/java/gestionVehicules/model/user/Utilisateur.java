@@ -29,34 +29,33 @@ import java.util.Optional;
 @Getter
 @Setter
 @SequenceGenerator(name = "user_seq_g", sequenceName = "user_seq", allocationSize = 1)
-
 public class Utilisateur implements UserDetails {
     @Id
     @Column(name="id_user" , nullable = false)
     private String id_user;
-    @NotBlank(message = "Le nom ne peut pas être vide")
-    @NotNull(message = "Le nom est obligatoire")
+//    @NotBlank(message = "Le nom ne peut pas être vide")
+//    @NotNull(message = "Le nom est obligatoire")
     private String nom;
-    @NotBlank(message = "Le prénom ne peut pas être vide")
-    @NotNull(message = "Le prénom est obligatoire")
+//    @NotBlank(message = "Le prénom ne peut pas être vide")
+//    @NotNull(message = "Le prénom est obligatoire")
     private String prenom;
 
-    @Past(message = "La date de naissance que vous avez entré ne peut pas être valide ")
+//    @Past(message = "La date de naissance que vous avez entré ne peut pas être valide ")
     private Date date_naissance;
 
-    @Pattern(regexp = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\\.[a-z]{2,4}$", message = "Cet email n'est pas valide")
-    @NotNull(message = "L'email est un champ obligatoire")
-    @NotBlank(message = "L'email ne doit pas être vide")
+//    @Pattern(regexp = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\\.[a-z]{2,4}$", message = "Cet email n'est pas valide")
+//    @NotNull(message = "L'email est un champ obligatoire")
+//    @NotBlank(message = "L'email ne doit pas être vide")
     private String email;
 
-    @NotNull(message = "Le numéro de télephone est un champ obligatoire")
-    @NotBlank(message = "Le numéro de télephone ne doit pas être vide")
-    @Pattern(regexp = "^03[0-9] [0-9]{2} [0-9]{3} [0-9]{2}$", message = "Le numéro de télephone doit correspondre au format suivant 03xx xx xxx xx")
+//    @NotNull(message = "Le numéro de télephone est un champ obligatoire")
+//    @NotBlank(message = "Le numéro de télephone ne doit pas être vide")
+//    @Pattern(regexp = "^03[0-9] [0-9]{2} [0-9]{3} [0-9]{2}$", message = "Le numéro de télephone doit correspondre au format suivant 03xx xx xxx xx")
     private String phone;
 
-    @Size(min = 8, message = "le mot de passe doit contenir au moins 8 caractères")
-    @NotNull(message = "Le mot de passe est obligatoire")
-    @NotBlank(message = "Le mot de passe ne peut pas être vide")
+//    @Size(min = 8, message = "le mot de passe doit contenir au moins 8 caractères")
+//    @NotNull(message = "Le mot de passe est obligatoire")
+//    @NotBlank(message = "Le mot de passe ne peut pas être vide")
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -121,5 +120,6 @@ public class Utilisateur implements UserDetails {
     public String getSequenceName(){
         return "user_seq";
     }
+
 
 }

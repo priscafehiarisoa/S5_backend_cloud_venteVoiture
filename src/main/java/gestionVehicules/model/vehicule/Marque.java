@@ -30,7 +30,7 @@ public class Marque {
         this.etat = etat;
     }
     public void setEtat() {
-        this.etat = 1;
+        this.etat = 0;
     }
 
     public Marque() {

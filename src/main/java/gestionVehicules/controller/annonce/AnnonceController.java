@@ -2,6 +2,7 @@ package gestionVehicules.controller.annonce;
 
 import gestionVehicules.model.annonce.Annonce;
 import gestionVehicules.model.annonce.CommissionAnnonce;
+import gestionVehicules.model.annonce.VenteAnnonce;
 import gestionVehicules.model.transactionsBanquaires.Commissions;
 import gestionVehicules.model.transactionsBanquaires.Transactions;
 import gestionVehicules.model.user.Utilisateur;
@@ -9,6 +10,7 @@ import gestionVehicules.model.vehicule.Vehicule;
 import gestionVehicules.repository.CommissionAnnonceRepository;
 import gestionVehicules.repository.CommissionsRepository;
 import gestionVehicules.repository.TransactionsRepository;
+import gestionVehicules.repository.VenteAnnonceRepository;
 import gestionVehicules.repository.annonce.AnnonceRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import gestionVehicules.repository.user.UtilisateurRepository;
@@ -35,6 +37,8 @@ public class AnnonceController {
     private CommissionAnnonceRepository commissionAnnonceRepository;
     @Autowired
     private CommissionsRepository commissionsRepository;
+    @Autowired
+    private VenteAnnonceRepository venteAnnonceRepository;
 
     @PostMapping
     public void insertAnnonce(@RequestBody Annonce annonce){
@@ -130,6 +134,7 @@ public class AnnonceController {
         HashMap<String,Object> returnValue=new HashMap<>();
         try {
             // set datas
+            // utilisateur acheteur
             Utilisateur utilisateur = Utilisateur.getOptionalUserById(String.valueOf(venteAeffectuer.get("utilisateur")), utilisateurRepository);
             Annonce annonce= Annonce.getAnnonceById(String.valueOf(venteAeffectuer.get("annonce")), annonceRepository);
             // 1 - verifier le solde du client
@@ -160,6 +165,10 @@ public class AnnonceController {
 
                 // declarer un vehicule comme vendu
                 annonceRepository.vendreAnnonce(annonce.getId_annonce());
+
+                // enregistrer dans la table vendeur
+                VenteAnnonce venteAnnonce= new VenteAnnonce(annonce,utilisateur,sequenceRepository);
+                venteAnnonceRepository.save(venteAnnonce);
 
                 returnValue.put("erreur",null);
                 returnValue.put("statut",404);
