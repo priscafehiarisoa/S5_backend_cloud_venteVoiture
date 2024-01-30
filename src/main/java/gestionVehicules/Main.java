@@ -1,5 +1,6 @@
 package gestionVehicules;
 
+import gestionVehicules.controller.statistiques.StatistiqueService;
 import gestionVehicules.model.UtilisateurTest;
 import gestionVehicules.model.vehicule.*;
 import gestionVehicules.repository.*;
@@ -14,14 +15,23 @@ import gestionVehicules.repository.user.UtilisateurRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Configuration
 public class Main {
+    private final StatistiqueService statistiqueService;
+
+    public Main(StatistiqueService statistiqueService) {
+        this.statistiqueService = statistiqueService;
+    }
+
     @Bean
     CommandLineRunner commandLineRunner(MessageRepository messageRepository,
                                         UtilisateurTestRepository utilisateurTestRepository,
@@ -38,7 +48,8 @@ public class Main {
                                         CommissionsRepository commissionsRepository,
                                         TransactionsRepository transactionsRepository,
                                         UtilisateurRepository utilisateurRepository,
-                                        CommissionAnnonceRepository commissionAnnonceRepository){
+                                        CommissionAnnonceRepository commissionAnnonceRepository,
+                                        VenteAnnonceRepository venteAnnonceRepository){
         return args -> {
 //            Message m1= new Message();
 //            m1.setIdExpediteur("1");
@@ -157,7 +168,25 @@ public class Main {
                     moteurs,
                     paysList).forEach(System.out::println);
 
-      };
+
+            System.out.println("==");
+            venteAnnonceRepository.getVenteParCategorie(categorieRepository.findById("CAT1").get()).forEach(System.out::println);
+            venteAnnonceRepository.listeAnnoncesNonVenduresEn_N_jours(7).forEach(System.out::println);;
+            statistiqueService.getStatistiquesParVentesMois(2022).forEach(System.out::println);;
+
+            System.out.println("totalCommissionsParMoisEtAnnee : "+ venteAnnonceRepository.totalCommissionsParMoisEtAnnee(1,2024));
+            System.out.println("totalCommissionsObtenues : "+ venteAnnonceRepository.totalCommissionsObtenues());
+
+            System.out.println("pageable");
+            Pageable pageable = PageRequest.of(0, 1);
+            List<Marque> optional=venteAnnonceRepository.marqueLePlusVendu(pageable);
+            optional.forEach(System.out::println);
+
+        };
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Date(System.currentTimeMillis() + 50*60*24));
     }
 }
 

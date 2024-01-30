@@ -16,3 +16,23 @@ select * from getsequence(3,'PRA','moteur_seq')
 
 --  get solde client
 select * from commissions
+
+
+
+CREATE SEQUENCE user_seq START 1;
+
+CREATE SEQUENCE categorie_seq START 1;
+CREATE SEQUENCE annonce_seq START 1;
+CREATE SEQUENCE boite_seq START 1;
+CREATE SEQUENCE carburant_seq START 1;
+CREATE SEQUENCE commission_annonce_seq START 1;
+CREATE SEQUENCE commission_seq START 1;
+CREATE SEQUENCE couleur_seq START 1;
+CREATE SEQUENCE favori_seq START 1;
+CREATE SEQUENCE marque_seq START 1;
+CREATE SEQUENCE modele_seq START 1;
+CREATE SEQUENCE moteur_seq START 1;
+CREATE SEQUENCE pays_seq START 1;
+CREATE SEQUENCE transactions_seq START 1;
+CREATE SEQUENCE vehicule_seq START 1;
+CREATE SEQUENCE image_seq START 1;

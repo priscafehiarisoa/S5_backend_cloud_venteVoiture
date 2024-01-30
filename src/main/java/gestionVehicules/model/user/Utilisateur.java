@@ -10,6 +10,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,67 +26,41 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
+@Getter
+@Setter
+@SequenceGenerator(name = "user_seq_g", sequenceName = "user_seq", allocationSize = 1)
 public class Utilisateur implements UserDetails {
     @Id
-    @Column(name="id_user")
+    @Column(name="id_user" , nullable = false)
     private String id_user;
+//    @NotBlank(message = "Le nom ne peut pas être vide")
+//    @NotNull(message = "Le nom est obligatoire")
     private String nom;
+//    @NotBlank(message = "Le prénom ne peut pas être vide")
+//    @NotNull(message = "Le prénom est obligatoire")
     private String prenom;
+
+//    @Past(message = "La date de naissance que vous avez entré ne peut pas être valide ")
     private Date date_naissance;
+
+//    @Pattern(regexp = "^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\\.[a-z]{2,4}$", message = "Cet email n'est pas valide")
+//    @NotNull(message = "L'email est un champ obligatoire")
+//    @NotBlank(message = "L'email ne doit pas être vide")
     private String email;
+
+//    @NotNull(message = "Le numéro de télephone est un champ obligatoire")
+//    @NotBlank(message = "Le numéro de télephone ne doit pas être vide")
+//    @Pattern(regexp = "^03[0-9] [0-9]{2} [0-9]{3} [0-9]{2}$", message = "Le numéro de télephone doit correspondre au format suivant 03xx xx xxx xx")
     private String phone;
+
+//    @Size(min = 8, message = "le mot de passe doit contenir au moins 8 caractères")
+//    @NotNull(message = "Le mot de passe est obligatoire")
+//    @NotBlank(message = "Le mot de passe ne peut pas être vide")
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public String getId_user() {
-        return id_user;
-    }
-
-    public void setId_user(String id_user) {
-        this.id_user = id_user;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public Date getDate_naissance() {
-        return date_naissance;
-    }
-
-    public void setDate_naissance(Date date_naissance) {
-        this.date_naissance = date_naissance;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -138,4 +117,9 @@ public class Utilisateur implements UserDetails {
         return utilisateur;
 
     }
+    public String getSequenceName(){
+        return "user_seq";
+    }
+
+
 }

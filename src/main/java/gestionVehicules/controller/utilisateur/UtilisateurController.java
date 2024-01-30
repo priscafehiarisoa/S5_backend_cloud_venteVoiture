@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -24,13 +25,26 @@ public class UtilisateurController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authenticationService.register(request));
+    public ResponseEntity<Object> register(@RequestBody RegisterRequest request) {
+        AuthenticationResponse authenticationResponse=null;
+        HashMap<String,Object> response=new HashMap<>();
+
+        try
+        {
+            authenticationResponse=  authenticationService.register(request);
+            return ResponseEntity.ok(authenticationResponse);
+
+        }catch (Exception e){
+            response.put("erreur",e.getMessage());
+        }
+        return ResponseEntity.ok(response);
+
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+        AuthenticationResponse authenticationResponse=authenticationService.authenticate(request);
+        return ResponseEntity.ok(authenticationResponse);
     }
 
     @PostMapping("/saveUser")
