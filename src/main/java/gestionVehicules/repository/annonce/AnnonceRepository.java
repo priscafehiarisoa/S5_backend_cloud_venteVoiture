@@ -35,6 +35,7 @@ public interface AnnonceRepository extends JpaRepository<Annonce,String> {
     @Query(value = "select a from Annonce a where a.etat=20")
     List<Annonce> getAnnoncesVendues();
 
+    @Transactional
     @Modifying
     @Query(value = "update  Annonce a set a.etat= -10 where a.id_annonce=:id_annonce ")
     void refuserAnnonce(@Param("id_annonce")String id_annonce);

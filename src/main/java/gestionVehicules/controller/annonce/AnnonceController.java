@@ -127,15 +127,24 @@ public class AnnonceController {
             return ResponseEntity.badRequest().body("Erreur lors de la mise à jour de l'état de la catégorie.");
         }
     }
-
     @PutMapping("/refuserAnnonce/{id}")
-    public Object refuserAnnonce(@PathVariable String id){
-        annonceRepository.refuserAnnonce(id);
-        HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("statut",200);
-        returnType.put("erreur",null);
-        return returnType;
+    public ResponseEntity<?> refuserAnnonce2(@PathVariable String id) {
+        try {
+            annonceRepository.refuserAnnonce(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erreur lors du refus de l'annonce.");
+        }
     }
+
+//    @PutMapping("/refuserAnnonce/{id}")
+//    public Object refuserAnnonce(@PathVariable String id){
+//        annonceRepository.refuserAnnonce(id);
+//        HashMap<String,Object> returnType=new HashMap<>();
+//        returnType.put("statut",200);
+//        returnType.put("erreur",null);
+//        return returnType;
+//    }
 
     @PutMapping("/vendreAnnonce/{id}")
     public Object vendreAnnonce(@PathVariable String id){
