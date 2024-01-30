@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 
-@CrossOrigin()
+@CrossOrigin("http://localhost:3000/")
 @RestController
 @RequestMapping("/annonce")
 public class AnnonceController {
@@ -102,6 +102,7 @@ public class AnnonceController {
         return returnType;
     }
 
+    @Transactional
     @PutMapping("/validerAnnonce/{id}")
     public Object validerAnnonce(@PathVariable String id){
         annonceRepository.validerAnnonce(id);
@@ -111,6 +112,7 @@ public class AnnonceController {
         return returnType;
     }
 
+    @Transactional
     @PutMapping("/refuserAnnonce/{id}")
     public Object refuserAnnonce(@PathVariable String id){
         annonceRepository.refuserAnnonce(id);
