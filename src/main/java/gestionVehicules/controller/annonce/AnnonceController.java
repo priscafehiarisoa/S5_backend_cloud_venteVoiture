@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin()
@@ -219,6 +220,24 @@ public class AnnonceController {
     @GetMapping("/getimages")
     public Object getAllphototest() {
         List<Image> images =imageRepository.findAll() ;
+        List<String> imageUrls = images.stream().map(Image::getImageUrl).collect(Collectors.toList());
+        HashMap<String, Object> returnType = new HashMap<>();
+        returnType.put("statut", 200);
+        returnType.put("erreur", null);
+        returnType.put("donnee", imageUrls);
+        return returnType;
+    }
+
+
+    @GetMapping("/getimagesbyId/{id}")
+    public Object getAllphotobyidannonce(@PathVariable String id) {
+        Optional<Annonce> annonceOptional=annonceRepository.findById(id);
+        Annonce annonce=new Annonce();
+        if(annonceOptional.isPresent())
+        {
+            annonce=annonceOptional.get();
+        }
+        List<Image> images =imageRepository.getImageByAnnonce(annonce) ;
         List<String> imageUrls = images.stream().map(Image::getImageUrl).collect(Collectors.toList());
         HashMap<String, Object> returnType = new HashMap<>();
         returnType.put("statut", 200);
