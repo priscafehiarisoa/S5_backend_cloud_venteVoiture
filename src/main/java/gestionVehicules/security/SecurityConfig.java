@@ -4,6 +4,7 @@ import gestionVehicules.model.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,9 +30,21 @@ public class SecurityConfig {
 
                 .requestMatchers("/SendMessage")
                 .authenticated()
-                .requestMatchers("/SendMessage")
+                .requestMatchers(HttpMethod.POST,"/carburant","/categorie","/couleur","/marque","/modele","/pays")
+//                crud rehetra
                 .hasAuthority(String.valueOf(Role.ADMIN))
-
+                .requestMatchers(HttpMethod.GET,"/carburant","/categorie","/couleur","/marque","/modele","/pays")
+                .permitAll()
+                .requestMatchers("/statistiques/**")
+                .permitAll()
+                .requestMatchers(HttpMethod.PUT,"/annonce/validateAnnonce")
+                .hasAuthority(String.valueOf(Role.ADMIN))
+//                .requestMatchers(HttpMethod.PUT,"/statistiques/**")
+//                .authenticated()
+//                .requestMatchers(HttpMethod.DELETE,"/statistiques/**")
+//                .authenticated()
+//                .permitAll()
+//                .authenticated()
                 .anyRequest()
                 .permitAll()
                 .and()

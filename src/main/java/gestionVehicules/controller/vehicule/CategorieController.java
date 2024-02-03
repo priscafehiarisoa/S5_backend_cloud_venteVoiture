@@ -4,12 +4,16 @@ package gestionVehicules.controller.vehicule;
 import gestionVehicules.model.vehicule.Categorie;
 import gestionVehicules.repository.CategorieRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+
+import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasAuthority;
 
 @CrossOrigin()
 @RestController
@@ -21,11 +25,10 @@ public class CategorieController {
     private SequenceRepository sequenceRepository;
 
     @PostMapping
-    public Object insertCategorie(@RequestBody HashMap<String,Object> cat) throws Exception {
+    public ResponseEntity<Object> insertCategorie(@RequestBody HashMap<String,Object> cat, HttpServletRequest request) throws Exception {
         HashMap<String,Object> returnType=new HashMap<>();
 
         try {
-
             String nom_categorie= (String) cat.get("nom_categorie");
             System.out.println(nom_categorie);
             Categorie categorie=new Categorie();
@@ -41,7 +44,7 @@ public class CategorieController {
             returnType.put("statut",404);
 
         }
-        return  returnType;
+        return ResponseEntity.status((Integer) returnType.get("statut")).body(returnType);
     }
 
     @GetMapping
