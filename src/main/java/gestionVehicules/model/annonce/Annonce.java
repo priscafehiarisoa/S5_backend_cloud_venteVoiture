@@ -40,6 +40,17 @@ public class Annonce {
     private double commission=0;
     @Transient
     private boolean isInFavorites=true;
+    @Transient
+    private int nombreFavoris;
+
+    public int getNombreFavoris() {
+        return nombreFavoris;
+    }
+
+    public void setNombreFavoris(int nombreFavoris) {
+        this.nombreFavoris = nombreFavoris;
+    }
+
 
     public Annonce() {
 
@@ -131,15 +142,21 @@ public class Annonce {
     }
 
      public HashMap<String,Object> getAnnoncemodifie(){
+        int inFav=0;
+        if(this.isInFavorites()){
+            inFav=1;
+        }
          HashMap<String,Object> annonce=new HashMap<>();
          annonce.put("vehicule",this.getVehicule());
          annonce.put("description",this.getDescription());
          annonce.put("prix",this.getPrix());
          annonce.put("etat",this.getEtat());
-         annonce.put("inFavorites",this.isInFavorites());
+         annonce.put("inFavorites",inFav);
          annonce.put("prixVehiculeAvecCommission",this.getPrixVehiculeAvecCommission());
          annonce.put("utilisateur",this.getUtilisateur().getNometPrenomIdUtilisateur());
          annonce.put("date_annonce",this.getDate_annonce());
+         annonce.put("id_annonce",this.getId_annonce());
+         annonce.put("nombreFavoris",this.getNombreFavoris());
          return annonce;
 
      }

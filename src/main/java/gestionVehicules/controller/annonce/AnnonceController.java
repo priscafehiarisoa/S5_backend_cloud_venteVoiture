@@ -14,6 +14,7 @@ import gestionVehicules.repository.CommissionsRepository;
 import gestionVehicules.repository.TransactionsRepository;
 import gestionVehicules.repository.VenteAnnonceRepository;
 import gestionVehicules.repository.annonce.AnnonceRepository;
+import gestionVehicules.repository.annonce.FavoriRepository;
 import gestionVehicules.repository.annonce.ImageRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import gestionVehicules.repository.user.UtilisateurRepository;
@@ -22,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +48,8 @@ public class AnnonceController {
     private VenteAnnonceRepository venteAnnonceRepository;
     @Autowired
     private ImageRepository imageRepository;
+    @Autowired
+    private FavoriRepository favoriRepository;
 
     @PostMapping
     public void insertAnnonce(@RequestBody Annonce annonce) {
@@ -78,10 +82,15 @@ public class AnnonceController {
     @GetMapping("/getAnnoncesValidees")
     public Object getAnnoncesValidees(){
         List<Annonce>annonceList= annonceRepository.getAnnoncesValidees();
+        List<HashMap<String,Object>> annonceHashmap=new ArrayList<>();
+        for (int i = 0; i < annonceList.size(); i++) {
+            annonceList.get(i).setNombreFavoris(favoriRepository.countFavoriByAnnonce(annonceList.get(i)));
+            annonceHashmap.add(annonceList.get(i).getAnnoncemodifie());
+        }
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
-        returnType.put("donnee",annonceList);
+        returnType.put("donnee",annonceHashmap);
         return returnType;
     }
 

@@ -1,5 +1,6 @@
 package gestionVehicules.repository.annonce;
 
+import gestionVehicules.model.annonce.Annonce;
 import gestionVehicules.model.annonce.Favori;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,5 +26,8 @@ public interface FavoriRepository extends JpaRepository<Favori,String> {
 
     @Query("SELECT COUNT(c) FROM Favori c WHERE c.etat = 0 AND c.id_favori = :idfavori")
     double nombreFavori(@Param("idfavori") String idfavori);
+
+    int countFavoriByAnnonce(Annonce annonce);
+
 
 }

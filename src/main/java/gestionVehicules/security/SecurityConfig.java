@@ -28,8 +28,9 @@ public class SecurityConfig {
                 .requestMatchers("/user/**")
                 .permitAll()
 
-                .requestMatchers("/SendMessage")
-                .authenticated()
+
+//                .requestMatchers("/SendMessage")
+//                .authenticated()
                 .requestMatchers(HttpMethod.POST,"/carburant","/categorie","/couleur","/marque","/modele","/pays")
 //                crud rehetra
                 .hasAuthority(String.valueOf(Role.ADMIN))
