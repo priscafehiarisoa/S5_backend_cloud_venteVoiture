@@ -58,4 +58,6 @@ public class UtilisateurController {
     public List<Utilisateur> getAllUser() {
         return utilisateurRepository.findAll();
     }
+
+
 }

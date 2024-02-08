@@ -5,6 +5,7 @@ import gestionVehicules.model.utils.Utils;
 import gestionVehicules.model.vehicule.Carburant;
 import gestionVehicules.model.vehicule.Vehicule;
 import gestionVehicules.repository.annonce.AnnonceRepository;
+import gestionVehicules.repository.annonce.FavoriRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import jakarta.persistence.*;
 import lombok.ToString;
@@ -132,6 +133,7 @@ public class Annonce {
 
      public HashMap<String,Object> getAnnoncemodifie(){
          HashMap<String,Object> annonce=new HashMap<>();
+         annonce.put("id_annonce",this.getId_annonce());
          annonce.put("vehicule",this.getVehicule());
          annonce.put("description",this.getDescription());
          annonce.put("prix",this.getPrix());
@@ -142,6 +144,10 @@ public class Annonce {
          annonce.put("date_annonce",this.getDate_annonce());
          return annonce;
 
+     }
+     public boolean checkIFInFavorites(FavoriRepository favoriRepository){
+        Optional<Favori> favori=favoriRepository.getFavoriByAnnonce(this);
+        return favori.isPresent();
      }
 
     public static Annonce getAnnonceById(String id, AnnonceRepository annonceRepository) throws Exception {

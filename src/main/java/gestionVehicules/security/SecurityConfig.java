@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/user/**")
+                .requestMatchers("/user/**","/annonce/getimagesbyId/")
                 .permitAll()
 
                 .requestMatchers("/SendMessage")

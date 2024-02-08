@@ -14,6 +14,7 @@ import gestionVehicules.repository.CommissionsRepository;
 import gestionVehicules.repository.TransactionsRepository;
 import gestionVehicules.repository.VenteAnnonceRepository;
 import gestionVehicules.repository.annonce.AnnonceRepository;
+import gestionVehicules.repository.annonce.FavoriRepository;
 import gestionVehicules.repository.annonce.ImageRepository;
 import gestionVehicules.repository.sequence.SequenceRepository;
 import gestionVehicules.repository.user.UtilisateurRepository;
@@ -22,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +49,8 @@ public class AnnonceController {
     private VenteAnnonceRepository venteAnnonceRepository;
     @Autowired
     private ImageRepository imageRepository;
+    @Autowired
+    private FavoriRepository favoriRepository;
 
     @PostMapping
     public void insertAnnonce(@RequestBody Annonce annonce) {
@@ -60,6 +64,9 @@ public class AnnonceController {
     public Object getAllAnnonce() {
         HashMap<String, Object> returnType = new HashMap<>();
         List<Annonce> annonceList = annonceRepository.findAll();
+        for (int i = 0; i < annonceList.size(); i++) {
+            annonceList.get(i).setInFavorites(annonceList.get(i).checkIFInFavorites(favoriRepository));
+        };
         returnType.put("donnee", annonceList);
         returnType.put("statut", 200);
         returnType.put("erreur", null);
@@ -69,6 +76,9 @@ public class AnnonceController {
     @GetMapping("/getAnnoncesEnCoursDeValidation")
     public Object getAnnoncesEnCoursDeValidation(){
         List<Annonce>annonceList= annonceRepository.getAnnoncesEnCoursDeValidation();
+        for (int i = 0; i < annonceList.size(); i++) {
+            annonceList.get(i).setInFavorites(annonceList.get(i).checkIFInFavorites(favoriRepository));
+        };
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
@@ -79,10 +89,15 @@ public class AnnonceController {
     @GetMapping("/getAnnoncesValidees")
     public Object getAnnoncesValidees(){
         List<Annonce>annonceList= annonceRepository.getAnnoncesValidees();
+        List<HashMap> refinedAnnonce=new ArrayList<>();
+        for (int i = 0; i < annonceList.size(); i++) {
+            annonceList.get(i).setInFavorites(annonceList.get(i).checkIFInFavorites(favoriRepository));
+            refinedAnnonce.add(annonceList.get(i).getAnnoncemodifie());
+        };
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
-        returnType.put("donnee",annonceList);
+        returnType.put("donnee",refinedAnnonce);
         return returnType;
     }
 
@@ -91,10 +106,17 @@ public class AnnonceController {
     @GetMapping("/getAnnoncesVendues")
     public Object getAnnoncesVendues(){
         List<Annonce>annonceList= annonceRepository.getAnnoncesVendues();
+        List<HashMap> refinedAnnonce=new ArrayList<>();
+
+        for (int i = 0; i < annonceList.size(); i++) {
+            annonceList.get(i).setInFavorites(annonceList.get(i).checkIFInFavorites(favoriRepository));
+            refinedAnnonce.add(annonceList.get(i).getAnnoncemodifie());
+
+        };
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
-        returnType.put("donnee",annonceList);
+        returnType.put("donnee",refinedAnnonce);
         return returnType;
 
     }
@@ -102,10 +124,17 @@ public class AnnonceController {
     @GetMapping("/getAnnoncesRefusees")
     public Object getAnnoncesRefusees() {
         List<Annonce> annonceList = annonceRepository.getAnnoncesRefusees();
+        List<HashMap> refinedAnnonce=new ArrayList<>();
+
+        for (int i = 0; i < annonceList.size(); i++) {
+            annonceList.get(i).setInFavorites(annonceList.get(i).checkIFInFavorites(favoriRepository));
+            refinedAnnonce.add(annonceList.get(i).getAnnoncemodifie());
+
+        };
         HashMap<String, Object> returnType = new HashMap<>();
         returnType.put("statut", 200);
         returnType.put("erreur", null);
-        returnType.put("donnee", annonceList);
+        returnType.put("donnee",refinedAnnonce);
         return returnType;
     }
 
@@ -214,8 +243,16 @@ public class AnnonceController {
     public Object getAnnonceById(@PathVariable("id") String id)  {
         HashMap<String,Object> hashMap=new HashMap<>();
         try {
+            HashMap<String,Object> sybHashmap=new HashMap<>();
             Annonce annonce = Annonce.getAnnonceById(id, annonceRepository);
-            hashMap.put("donnee",annonce);
+            annonce.setInFavorites(annonce.checkIFInFavorites(favoriRepository));
+            List<Image> images =imageRepository.getImageByAnnonce(annonce) ;
+            List<String> imageUrls = images.stream().map(Image::getImageUrl).collect(Collectors.toList());
+            sybHashmap.put("annonce",annonce.getAnnoncemodifie());
+            sybHashmap.put("imageUrl",imageUrls);
+            hashMap.put("donnee",sybHashmap);
+            hashMap.put("statut",200);
+
         }catch (Exception e){
             hashMap.put("erreur",e.getMessage());
         }
@@ -230,9 +267,11 @@ public class AnnonceController {
         try {
             Image image = new Image();
             String url = (String) img.get("imgUrl");
+
+//            todo : ovaina an'le annonce efa nampidirina
             List<Annonce>annonceList=annonceRepository.findAll();
 
-            Annonce annonce =annonceList.get(0);
+            Annonce annonce =annonceList.get(1);
 
             image.setImageUrl(url);
             image.setAnnonce(annonce);

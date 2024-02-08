@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 @Entity
 @SequenceGenerator(name = "transaction_seq_g", sequenceName = "transaction_seq", allocationSize = 1)
@@ -113,6 +114,16 @@ public class Transactions {
         setMontantTransaction(montantTransaction);
         setDateTransaction(LocalDateTime.now());
         setMultiplicateur(multiplicateur);
+    }
+
+    public HashMap<String,Object> getFormatedTRansaction(){
+        HashMap<String,Object> returnHashmap=new HashMap<>();
+        returnHashmap.put("annonce",getAnnonce().getAnnoncemodifie());
+        returnHashmap.put("dateTransaction",getDateTransaction());
+        returnHashmap.put("montant",getMontantTransaction()*getMultiplicateur());
+        returnHashmap.put("description",getAnnonce().getAnnoncemodifie());
+        returnHashmap.put("utilisateur",getAnnonce().getAnnoncemodifie());
+        return returnHashmap;
     }
 
 
