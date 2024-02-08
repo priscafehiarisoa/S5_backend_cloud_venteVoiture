@@ -59,5 +59,23 @@ public class UtilisateurController {
         return utilisateurRepository.findAll();
     }
 
+    @GetMapping("/userByid/{id}")
+    public ResponseEntity<HashMap<String,Object>> getuserByid(@PathVariable("id") String id){
+        HashMap<String, Object> returningObject = new HashMap<>();
+        try{
+
+            Utilisateur utilisateur= Utilisateur.getOptionalUserById(id,utilisateurRepository);
+            HashMap hashMap= new HashMap<>();
+            hashMap.put("utilisateur",utilisateur.formatUser());
+            returningObject.put("donnee",hashMap);
+            returningObject.put("statuts",200);
+        }catch (Exception e){
+            returningObject.put("statuts",404);
+            returningObject.put("erreur","impossible de trouver l'utilisateur");
+            return ResponseEntity.ok(returningObject);
+        }
+        return ResponseEntity.ok(returningObject);
+
+    }
 
 }
