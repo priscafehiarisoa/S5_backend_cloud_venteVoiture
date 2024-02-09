@@ -260,21 +260,22 @@ public class AnnonceController {
         return hashMap;
     }
 
-    @PostMapping("/image")
-    public Object insertimage(@RequestBody HashMap<String, Object> img) throws Exception {
+    @PostMapping("/image/{id}")
+    public Object insertimage(@RequestBody HashMap<String, Object> img ,@PathVariable("id") String id) throws Exception {
         HashMap<String, Object> returnType = new HashMap<>();
 
         try {
             Image image = new Image();
             String url = (String) img.get("imgUrl");
-
+            Optional<Annonce> annonce = annonceRepository.findById(id);
+            Annonce annonce1=new Annonce();
+            if(annonce.isPresent()){
+                annonce1=annonce.get();
+            }
 //            todo : ovaina an'le annonce efa nampidirina
-            List<Annonce>annonceList=annonceRepository.findAll();
-
-            Annonce annonce =annonceList.get(1);
 
             image.setImageUrl(url);
-            image.setAnnonce(annonce);
+            image.setAnnonce(annonce1);
             image.setId_image(sequenceRepository.getSequence(3, "IMG", image.getSequenceName()));
             imageRepository.save(image);
             returnType.put("statut", 200);
