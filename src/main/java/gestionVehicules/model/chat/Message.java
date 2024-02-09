@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Data
 @Document(collection = "Message")
 public class Message {
@@ -69,6 +71,20 @@ public class Message {
         }
         return senderReceiverIds ;
     }
+
+    public static List<String> getReceiverIs(String ids, MessageRepository messageRepository) {
+        List<Message> messages = messageRepository.findByidRecepteurOrIdExpediteur(ids, ids);
+        List<String> allIds = messages.stream()
+                .flatMap(message -> Stream.of(message.getIdExpediteur(), message.getIdRecepteur()))
+                .filter(id -> id != null && !id.isEmpty()) // Filtre les valeurs null ou vides
+                .collect(Collectors.toList());
+
+        // Obtenez une liste distincte d'identifiants d'expéditeurs et de destinataires
+        List<String> distinctIds = allIds.stream()
+                .distinct()
+                .collect(Collectors.toList());
+        return distinctIds;
+    }
     public static List<Utilisateur> getListUsers(List<String> ids, UtilisateurRepository utilisateurRepository){
         List<Utilisateur> utilisateurTests=new ArrayList<>();
         for (int i = 0; i < ids.size(); i++) {
@@ -82,7 +98,7 @@ public class Message {
 
     public static List<Utilisateur> getListUserThatHaveSentAMessage(String idCurrentUser,UtilisateurRepository utilisateurRepository,MessageRepository messageRepository)
     {
-        List<String> listUtilisateurIds=Message.getSenderReceiverIds(idCurrentUser,messageRepository);
+        List<String> listUtilisateurIds=Message.getReceiverIs(idCurrentUser,messageRepository);
         List<Utilisateur> listeUtilisateur=getListUsers(listUtilisateurIds,utilisateurRepository);
         return listeUtilisateur;
     }
