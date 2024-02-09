@@ -54,7 +54,8 @@ public class ChatController {
     * }*/
 
     @GetMapping("/getSerndersName/{id}")
-    public Object getSerndersName(@PathVariable String id){
+    public Object getSerndersName(@PathVariable("id") String id){
+
         List<Utilisateur> listUtilisateur=Message.getListUserThatHaveSentAMessage(id,utilisateurRepository,messageRepository);
         List<HashMap<String,Object>> userList= new ArrayList<>();
         for (int i = 0; i < listUtilisateur.size(); i++) {
