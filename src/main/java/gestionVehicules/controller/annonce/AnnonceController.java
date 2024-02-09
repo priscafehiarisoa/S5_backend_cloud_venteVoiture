@@ -319,4 +319,25 @@ public class AnnonceController {
         returnType.put("donnee", imageUrls);
         return returnType;
     }
+
+    @GetMapping("/getannoncesbyIduser/{id}")
+    public Object getAllAnnonceParuser(@PathVariable String id) {
+        HashMap<String, Object> returnType = new HashMap<>();
+
+        Utilisateur utilisateur=null;
+        Optional<Utilisateur> optionalUtilisateur=utilisateurRepository.findById(id);
+        if(optionalUtilisateur.isPresent())
+        {
+            utilisateur=optionalUtilisateur.get();
+        }
+
+        List<Annonce> annonceList = annonceRepository.findByUtilisateur(utilisateur);
+        for (int i = 0; i < annonceList.size(); i++) {
+            annonceList.get(i).setInFavorites(annonceList.get(i).checkIFInFavorites(favoriRepository));
+        };
+        returnType.put("donnee", annonceList);
+        returnType.put("statut", 200);
+        returnType.put("erreur", null);
+        return returnType;
+    }
 }

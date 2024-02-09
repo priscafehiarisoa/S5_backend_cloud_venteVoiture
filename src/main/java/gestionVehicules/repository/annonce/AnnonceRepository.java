@@ -1,6 +1,7 @@
 package gestionVehicules.repository.annonce;
 
 import gestionVehicules.model.annonce.Annonce;
+import gestionVehicules.model.user.Utilisateur;
 import gestionVehicules.model.vehicule.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -93,8 +94,6 @@ public interface AnnonceRepository extends JpaRepository<Annonce,String> {
     List<Annonce> rechercheQueryAnnonce(@Param("ref") String querySearch);
 
 
-
-
-
-
+    @Query(value = "select a from Annonce a where a.utilisateur=:utilisateur ")
+    List<Annonce> findByUtilisateur(@Param("utilisateur") Utilisateur utilisateur);
 }
