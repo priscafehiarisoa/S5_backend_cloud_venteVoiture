@@ -213,7 +213,7 @@ public class AnnonceController {
                 transactionsRepository.save(transactionsAcheteur);
 
                 // compte vendeur
-                descriptif="achat du vehicule n* "+annonce.getVehicule().getId_vehicule()+" immatricule :"+annonce.getVehicule().getImmatricule() +"Annonce :"+annonce.getId_annonce();
+                descriptif="vente du vehicule n* "+annonce.getVehicule().getId_vehicule()+" immatricule :"+annonce.getVehicule().getImmatricule() +"Annonce :"+annonce.getId_annonce();
                 Transactions transactionVendeur=new Transactions(annonce.getUtilisateur(),annonce,1,descriptif,annonce.getPrix(),sequenceRepository);
                 transactionsRepository.save(transactionVendeur);
 
