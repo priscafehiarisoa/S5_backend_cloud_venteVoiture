@@ -29,10 +29,10 @@ public class VenteAnnonce {
     private Utilisateur acheteur;
 
     public String getPrefixes(){
-        return "COMM";
+        return "VEN";
     }
     public String getSequenceName(){
-        return "commission_seq";
+        return "vente_seq";
     }
     public String getId(SequenceRepository sequenceRepository){
         return sequenceRepository.getSequence(3,getPrefixes(),getSequenceName());

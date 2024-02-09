@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @Entity
-@SequenceGenerator(name = "transaction_seq_g", sequenceName = "transaction_seq", allocationSize = 1)
+@SequenceGenerator(name = "transactions_seq_g", sequenceName = "transactions_seq", allocationSize = 1)
 @ToString
 public class Transactions {
     @Id
@@ -90,7 +90,7 @@ public class Transactions {
         return "TRANS";
     }
     public String getSequenceName(){
-        return "transaction_seq";
+        return "transactions_seq";
     }
     public String getId(SequenceRepository sequenceRepository){
         return sequenceRepository.getSequence(3,getPrefixes(),getSequenceName());

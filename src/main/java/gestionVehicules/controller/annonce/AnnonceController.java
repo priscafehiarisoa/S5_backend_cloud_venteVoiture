@@ -186,13 +186,16 @@ public class AnnonceController {
     }
 
     @PostMapping("/vendreVehicule")
-    @Transactional
+//    @Transactional
     public Object venteVehicule(@RequestBody HashMap<String , Object> venteAeffectuer)  {
         HashMap<String,Object> returnValue=new HashMap<>();
         try {
+            System.out.println("__"+venteAeffectuer.get("annonce"));
+            System.out.println("--"+venteAeffectuer.get("utilisateur"));
             // set datas
             Utilisateur utilisateur = Utilisateur.getOptionalUserById(String.valueOf(venteAeffectuer.get("utilisateur")), utilisateurRepository);
             Annonce annonce= Annonce.getAnnonceById(String.valueOf(venteAeffectuer.get("annonce")), annonceRepository);
+
             // 1 - verifier le solde du client
             double soldeClient= transactionsRepository.getSoldeClient(utilisateur);
             if(annonce.getPrixVehiculeAvecCommission()>soldeClient){

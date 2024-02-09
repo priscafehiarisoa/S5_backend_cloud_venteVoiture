@@ -36,6 +36,7 @@ CREATE SEQUENCE pays_seq START 1;
 CREATE SEQUENCE transactions_seq START 1;
 CREATE SEQUENCE vehicule_seq START 1;
 CREATE SEQUENCE image_seq START 1;
+CREATE SEQUENCE vente_seq START 1;
 
 
 -- data
