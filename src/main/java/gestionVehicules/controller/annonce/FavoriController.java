@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -82,11 +83,16 @@ public class FavoriController {
 
     @GetMapping("/{idutilisateur}")
     public Object getFavorisParUtilisateur(@PathVariable String idutilisateur){
-        List<Favori> favoris= favoriRepository.getFavoriDispoParUtilisateur(idutilisateur);
+        List<Annonce> annonceList= favoriRepository.getFavoriDispoParUtilisateur(idutilisateur);
+        List<HashMap> refinedAnnonce=new ArrayList<>();
+        for (int i = 0; i < annonceList.size(); i++) {
+            annonceList.get(i).setInFavorites(annonceList.get(i).checkIFInFavorites(favoriRepository));
+            refinedAnnonce.add(annonceList.get(i).getAnnoncemodifie());
+        };
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
-        returnType.put("donnee",favoris);
+        returnType.put("donnee",refinedAnnonce);
         return  returnType;
     }
 

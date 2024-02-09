@@ -121,5 +121,15 @@ public class Utilisateur implements UserDetails {
         return "user_seq";
     }
 
+    public HashMap<String,Object> formatUser(){
+        HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put("nom",getNom());
+        hashMap.put("prenom",getPrenom());
+        hashMap.put("email",getEmail());
+        hashMap.put("userId",getId_user());
+        hashMap.put("dateNaissance",getDate_naissance());
+        hashMap.put("phone",getPhone());
+        return hashMap;
+    }
 
 }
