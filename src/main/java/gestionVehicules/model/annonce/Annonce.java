@@ -11,7 +11,9 @@ import jakarta.persistence.*;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
@@ -209,5 +211,12 @@ public class Annonce {
         this.setPrix(prix);
         this.setEtat(etat);
         this.setCommission(commission);
+    }
+    public static List<HashMap<String,Object>> listAnnonceToHashmao(List<Annonce> annonces){
+        List<HashMap<String,Object>> listes=new ArrayList<>();
+        for (int i = 0; i < annonces.size(); i++) {
+            listes.add(annonces.get(i).getAnnoncemodifie());
+        }
+        return listes;
     }
 }

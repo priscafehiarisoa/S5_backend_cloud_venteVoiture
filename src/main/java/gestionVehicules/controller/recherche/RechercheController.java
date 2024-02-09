@@ -169,8 +169,9 @@ public class RechercheController {
     @GetMapping("/simpleSearch/{searchQuery}")
     public Object simpleSearch(@PathVariable() String searchQuery){
         List<Annonce> annonces=annonceRepository.rechercheQueryAnnonce((searchQuery.toLowerCase().trim()));
+
         HashMap<String,Object> returnType=new HashMap<>();
-        returnType.put("donnee",annonces);
+        returnType.put("donnee",Annonce.listAnnonceToHashmao(annonces));
         returnType.put("erreur","");
         returnType.put("statut",200);
         return returnType;
