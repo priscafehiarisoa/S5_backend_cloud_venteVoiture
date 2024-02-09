@@ -182,6 +182,14 @@ public class Main {
             List<Marque> optional=venteAnnonceRepository.marqueLePlusVendu(pageable);
             optional.forEach(System.out::println);
 
+            String idExpediteur = "USR003";
+            String idRecepteur = "USR003";
+            String messageEnvoyeString = "USR003";
+            Message message = new Message(idExpediteur, idRecepteur, messageEnvoyeString);
+//            messageRepository.save(message);
+
+//            Message.getListUserThatHaveSentAMessage("USR005",utilisateurRepository,messageRepository).forEach(System.out::println);
+            Message.getReceiverIs("USR005",messageRepository).forEach(System.out::println);
         };
     }
 
