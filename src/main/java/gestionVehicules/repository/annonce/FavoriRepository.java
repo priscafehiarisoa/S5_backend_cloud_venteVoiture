@@ -25,7 +25,7 @@ public interface FavoriRepository extends JpaRepository<Favori,String> {
     List<Annonce> getFavoriDispoParUtilisateur(@Param("idutilisateur") String idutilisateur);
 
 
-    @Query("SELECT COUNT(c) FROM Favori c WHERE c.etat = 0 AND c.id_favori = :idfavori")
+    @Query("SELECT COUNT(c) FROM Favori c WHERE c.etat = 0 AND c.annonce.id_annonce = :idfavori")
     double nombreFavori(@Param("idfavori") String idfavori);
 
     Optional<Favori> getFavoriByAnnonce(Annonce annonce);
