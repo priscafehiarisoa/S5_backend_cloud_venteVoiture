@@ -185,6 +185,7 @@ public class AnnonceController {
         return returnType;
     }
 
+    @PostMapping("/vendreVehicule")
     @Transactional
     public Object venteVehicule(@RequestBody HashMap<String , Object> venteAeffectuer)  {
         HashMap<String,Object> returnValue=new HashMap<>();
