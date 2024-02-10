@@ -122,7 +122,7 @@ public class Transactions {
         returnHashmap.put("annonce",getAnnonce().getAnnoncemodifie());
         returnHashmap.put("dateTransaction",getDateTransaction());
         returnHashmap.put("montant",getMontantTransaction()*getMultiplicateur());
-        returnHashmap.put("description",getAnnonce().getAnnoncemodifie());
+        returnHashmap.put("description",getDescriptifTransaction());
         returnHashmap.put("utilisateur",getAnnonce().getAnnoncemodifie());
         return returnHashmap;
     }
