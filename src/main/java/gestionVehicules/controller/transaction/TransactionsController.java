@@ -57,7 +57,7 @@ public class TransactionsController {
         HashMap<String, Object> returningObject = new HashMap<>();
         try {
             Utilisateur utilisateur = Utilisateur.getOptionalUserById(id, utilisateurRepository);
-            List<Transactions> listeTransactions = transactionsRepository.getTransactionsByUtilisateurOrderByDateTransactionAsc(utilisateur);
+            List<Transactions> listeTransactions = transactionsRepository.getTransactionsByUtilisateurOrderByDateTransactionDesc(utilisateur);
             List<HashMap<String,Object>> transact= new ArrayList<>();
             for (int i = 0; i < listeTransactions.size(); i++) {
                 transact.add(listeTransactions.get(i).getFormatedTRansaction());

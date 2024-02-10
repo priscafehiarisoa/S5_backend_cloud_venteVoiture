@@ -12,4 +12,6 @@ public interface TransactionsRepository extends JpaRepository<Transactions, Stri
     double getSoldeClient(Utilisateur utilisateur);
 
     List<Transactions> getTransactionsByUtilisateurOrderByDateTransactionAsc(Utilisateur utilisateur);
+
+    List<Transactions> getTransactionsByUtilisateurOrderByDateTransactionDesc(Utilisateur utilisateur);
 }
