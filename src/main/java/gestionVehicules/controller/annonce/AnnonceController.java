@@ -336,7 +336,7 @@ public class AnnonceController {
         for (int i = 0; i < annonceList.size(); i++) {
             annonceList.get(i).setInFavorites(annonceList.get(i).checkIFInFavorites(favoriRepository));
         };
-        returnType.put("donnee", annonceList);
+        returnType.put("donnee", Annonce.listAnnonceToHashmao(annonceList));
         returnType.put("statut", 200);
         returnType.put("erreur", null);
         return returnType;
