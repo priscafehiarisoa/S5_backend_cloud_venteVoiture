@@ -118,6 +118,7 @@ public class Transactions {
 
     public HashMap<String,Object> getFormatedTRansaction(){
         HashMap<String,Object> returnHashmap=new HashMap<>();
+        returnHashmap.put("id",getId());
         returnHashmap.put("annonce",getAnnonce().getAnnoncemodifie());
         returnHashmap.put("dateTransaction",getDateTransaction());
         returnHashmap.put("montant",getMontantTransaction()*getMultiplicateur());
