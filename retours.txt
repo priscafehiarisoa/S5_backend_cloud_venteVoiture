@@ -2,5 +2,21 @@
 1950
 2034
 2089
+------
 Lien url Backoffice
 https://spontaneous-scone-b4cce9.netlify.app
+-----
+Lien url FrontOffice
+https://phenomenal-madeleine-e8d9b2.netlify.app/annonce
+-----
+ Lien google sheet liste des taches
+https://docs.google.com/spreadsheets/d/1NXEPuMwyRr7ub6oTCQfM22pj_2UMkUd_csuxLrPqAc4/edit?usp=sharing
+-----
+Lien public documentation technique
+https://docs.google.com/document/d/10UqACKd7nhYz_wuniRgfl-0ineQAl8uFQRT2yTcX5j0/edit?usp=sharing
+-----
+lien git
+https://github.com/priscafehiarisoa/S5_backend_cloud_venteVoiture.git
+https://github.com/priscafehiarisoa/s5_back_office_vente_vehicule.git
+https://github.com/priscafehiarisoa/s5_front_office_vente_vehicules.git
+

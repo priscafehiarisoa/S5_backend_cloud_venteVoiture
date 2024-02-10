@@ -230,7 +230,7 @@ public class AnnonceController {
                 venteAnnonceRepository.save(venteAnnonce);
 
                 returnValue.put("erreur",null);
-                returnValue.put("statut",404);
+                returnValue.put("statut",200);
                 returnValue.put("donnee","vendu avec succes");
             }
 

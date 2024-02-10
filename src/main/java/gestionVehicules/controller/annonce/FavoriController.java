@@ -96,9 +96,9 @@ public class FavoriController {
         return  returnType;
     }
 
-    @GetMapping("/nombrefavori/{idfavori}")
-    public Object getFavorisnombre(@PathVariable String idfavori){
-        double nbfavoris= favoriRepository.nombreFavori(idfavori);
+    @GetMapping("/nombrefavori/{idAnnonce}")
+    public Object getFavorisnombre(@PathVariable String idAnnonce){
+        double nbfavoris= favoriRepository.nombreFavori(idAnnonce);
         HashMap<String,Object> returnType=new HashMap<>();
         returnType.put("statut",200);
         returnType.put("erreur",null);
